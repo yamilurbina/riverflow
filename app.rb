@@ -1,5 +1,6 @@
 require 'sinatra'
 require 'sinatra/session'
+require 'sinatra/config_file'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
 require 'redis'
@@ -9,22 +10,22 @@ require 'bcrypt'
 require 'postmark'
 require 'mail'
 
+# Config file in YAML format
+config_file 'config.yml'
+
 # XSS protection
 helpers do
 	include Rack::Utils
 	alias_method :h, :escape_html	
 end
 
-set :session_fail, '/login'
-set :session_secret, 'r1v3rf10W!'
-set :session_name, 'riverflow'
-
+# Set a redis connection
 redis = Redis.new
 
-# Global variables
-$address = 'riverflow.in'
-$salt = '$2a$10$o9eRx9mLud4t4O5yOvRxne'
-$postmark_api = "fb4075fb-6407-498f-a09e-46d8487f5793"
+set :session_fail, '/login'
+set :session_secret, settings.session_secret
+set :session_name, settings.session_name
+
 $invites_available = 3
 
 
@@ -112,7 +113,7 @@ post '/login' do
 	end
 
 	# Hash it
-	hash = BCrypt::Engine.hash_secret(password, $salt)
+	hash = BCrypt::Engine.hash_secret(password, settings.salt)
 
 	# Check password
 	if not user_data["password"] == hash
@@ -148,12 +149,12 @@ post '/invites/add' do
 	# Save invitation
 	redis.hset "invites", string, email
 	
-	@uri = "http://#{$address}/invites/#{string}"
+	@uri = "http://#{settings.address}/invites/#{string}"
 	@inviter = session[:name]
 	
 	# Send the invitation!
 	message = Mail.new
-	message.delivery_method(Mail::Postmark, :api_key => $postmark_api)
+	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
 	message.from = "invites@riverflow.in"
 	message.to = email
 	message.subject = "You have been invited to Riverflow"
@@ -201,14 +202,14 @@ post '/invites/:key' do
 	user = "user:#{email}"
 
 	# Hash it
-	hash = BCrypt::Engine.hash_secret(password, $salt)
+	hash = BCrypt::Engine.hash_secret(password, settings.salt)
 
 	# Register the user
 	redis.hsetnx user, "name", name
 	redis.hsetnx user, "password", hash
 
 	# Give the user number of invitations
-	redis.hsetnx user, "invites", $invites_available
+	redis.hsetnx user, "invites", settings.invites_available
 
 	# Login the user
 	session_start!

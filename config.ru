@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'sinatra/session'
+require 'sinatra/config_file'
 require 'sinatra/flash'
 require 'sinatra/redirect_with_flash'
 require 'redis'

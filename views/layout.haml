@@ -66,5 +66,4 @@
 
 		%script{:src => "//static.getclicky.com/js"}
 		%script{:type => "text/javascript"}
-			:plain
-				try{ clicky.init(66601376); }catch(e){}
+			try{ clicky.init(#{settings.clicky_track_number}); }catch(e){}
