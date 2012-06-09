@@ -26,13 +26,8 @@ set :session_fail, '/login'
 set :session_secret, settings.session_secret
 set :session_name, settings.session_name
 
-$invites_available = 3
 
-
-#############################
-########    Homepage  #######
-#############################
-
+### Homepage
 get '/' do
 	if session?
 		@instances = redis.smembers "user:#{session['email']}:subdomains"
