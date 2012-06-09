@@ -1,0 +1,17 @@
+.grid_9
+	.box
+		%h1 Signup - #{@invite_email}
+		%form{:action => "/invites/#{@invite}", :method => 'post'}
+			%p
+				Name
+				%br
+				%input{:type => 'text', :name => 'name'}
+			%p
+				Password
+				%br
+				%input{:type => 'password', :name => 'password'}
+			%p
+				%input{:type => 'submit', :value => 'Sign me up'}
+.grid_3
+	%h2 Congrats!
+	%p One of your colleagues has invited you to join Riverflow. So sit back, relax and enjoy the service!

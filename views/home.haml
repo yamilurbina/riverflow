@@ -1,0 +1,52 @@
+.grid_9
+	.box
+		%h1
+			Your instances
+			%span.link
+				%a{:href => '#instance'} + Add instance
+		%ul.instances
+			- @instances.each do |instance|
+				%li
+					%h2 #{@redis.hget "user:#{session['email']}:#{instance}", "title"}
+					%a{:href => "http://#{instance}.riverflow.in", :target => '_blank'} #{instance}.riverflow.in
+.grid_3
+	%h2 First time here?
+	%p
+		Begin by creating a ProcessMaker instance.
+		Choose a subdomain and Riverflow will create a workspace with the same name as the subdomain.
+	%p
+		The default user and password for a new subdomain is 'admin'
+
+	%h2
+		Invite a friend
+	- if not @invites == '0'
+		%p
+			You have #{@invites} invitations left.
+			%a{:href => '#invite'} Invite now!
+	- else
+		%p You don't have invitations left.
+
+#lightbox.box.instance
+	%h1 Add an instance
+	%form{:action => '/instance/add', :method => 'post'}
+		%p
+			%label
+				%span Title
+				%input{:type => 'text', :name => 'title', :placeholder => 'Company BPM', :maxlength => '23'}		
+		%p
+			%label.url
+				%span URL
+				%input{:type => 'text', :name => 'url', :maxlength => '12'}
+				%small #{".riverflow.in"}
+
+		%input{:type => 'submit', :value => 'Create instance'}
+
+#lightbox.box.invite
+	%h2 Give me an email address:
+	%form{:action => '/invites/add', :method => 'post'}
+		%p
+			%label
+				%span Email Address
+				%input{:type => 'email', :name => 'email', :placeholder => 'friend@mail.com', :maxlength => '67'}
+
+		%input{:type => 'submit', :value => 'Send invitation'}

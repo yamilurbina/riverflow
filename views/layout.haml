@@ -1,0 +1,70 @@
+!!!5
+%html
+	%head
+		%meta{:charset => 'utf8'}
+		%meta{:name => "viewport", :content => "width=device-width"}
+		%title #{@page_title} | Riverflow
+		%link{:href => '/style.css', :rel => 'stylesheet'}
+	%body
+		.wrapper
+			#header
+				.container_12
+					- if flash[:alert]
+						.msg.alert
+							%p= flash[:alert]
+
+					- if flash[:notice]
+						.msg.notice
+							%p= flash[:notice]
+
+					- if flash[:warning]
+						.msg.warning
+							%p= flash[:warning]
+
+					- if flash[:info]
+						.msg.info
+							%p= flash[:info]
+
+					- if flash[:success]
+						.msg.success
+							%p= flash[:success]
+
+					- if flash[:error]
+						.msg.error
+							%p= flash[:error]
+
+					.grid_4
+						%h1
+							%a{:href => '/'} Riverflow
+					.grid_8
+						%ul.main_menu
+							- if not session?
+								%li
+									%a{:href => '/login'} Login
+							- else
+								%li
+									%span
+										Hey there, #{session[:name]}
+								%li
+									%a{:href => '/logout'} Logout
+
+			#content
+				.container_12
+					= yield
+
+			#footer
+				.container_12
+					.grid_10
+						%p
+							&copy; 2012 Riverflow.
+							A product by 
+							%a{:href => 'http://yamilurbina.com'} @yamilurbina
+
+		%script{:src => '/js/libs/jquery-1.7.2.min.js'}
+		%script{:src => '/js/libs/jquery.lightbox_me.js'}
+		%script{:src => '/js/script.js'}
+
+		%script{:src => "//static.getclicky.com/js"}
+		%script{:type => "text/javascript"}
+			:plain
+				try{ clicky.init(66601376); }catch(e){}

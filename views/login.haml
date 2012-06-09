@@ -1,0 +1,16 @@
+.grid_8.push_2
+	.box
+		%h1= @page_title
+		%p Don't have an account? Ask a friend or colleague to send you an invite :)
+		%form{:action => '/login', :method => 'post'}
+			%p
+				%label
+					%span Email Address
+					%input{:type => 'email', :name => 'email', :placeholder => 'me@mail.com', :maxlength => '67'}
+
+			%p
+				%label
+					%span Password
+					%input{:type => 'password', :name => 'password', :maxlength => '23'}
+
+			%input{:type => 'submit', :value => 'Login'}
