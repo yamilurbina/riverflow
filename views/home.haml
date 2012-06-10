@@ -8,7 +8,10 @@
 		%ul
 			- @user.instances.each do |instance|
 				%li
-					%h2 #{instance[:name]}
+					%h2
+						#{instance[:name]}
+						%small
+							%a{:href => "/instance/manage/#{instance[:id]}"} manage
 					%p
 						%a{:href => "http://#{instance[:url]}.#{settings.address}", :target => '_blank'} #{instance[:url]}.#{settings.address}
 						%br

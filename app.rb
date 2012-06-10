@@ -32,13 +32,14 @@ class User
 	property :name, String, :length => 3..30
 	property :email, String, :index => true, :unique => true, :format => :email_address, :length => 4..40, :required => true
 	# If user has been invited
-	property :invitation, String, :index => true, :unique => true, :default => false
+	property :invitation, String, :index => true, :unique => true
 	# Number of invites
 	property :invites, Integer, :default => settings.invites_available
 	property :password, String, :length => 0..60
 	property :created_at, DateTime, :default => Time.now
 	# User has many instances
 	has n, :instances
+	has n, :workspaces
 end
 
 class Instance
@@ -46,8 +47,19 @@ class Instance
 	property :id, Serial
 	property :name, String, :length => 3..30, :required => true
 	property :url, String, :index => true, :length => 3..60, :unique => true, :required => true
+	property :workspaces, Integer, :default => settings.workspaces_available
 	property :created_at, DateTime, :default => Time.now
-	# An instances belongs to a User
+	# Instances belongs to a User
+	belongs_to :user
+	has n, :workspaces
+end
+
+class Workspace
+	include DataMapper::Resource
+	property :id, Serial
+	property :name, String, :length => 3..10, :required => true
+	property :created_at, DateTime, :default => Time.now
+	belongs_to :instance
 	belongs_to :user
 end
 
@@ -98,7 +110,7 @@ post '/instance/add' do
 	instance.url = url
 
 	if not instance.valid?
-		redirect '/', :error => "Something went wrong. Check the fields."
+		redirect '/', :error => "The instance values are wrong or it's in use."
 	end
 
 	instance.save
@@ -110,8 +122,28 @@ post '/instance/add' do
 	# puts c.body_str
 end
 
+get '/instance/manage/:id' do
+	session!
+	@instance = Instance.first(:id => params[:id])
+	
+	if @instance.nil? or not @instance.user[:email] == session[:email]
+		redirect '/', :error => "Wrong instance."
+	end
+
+	@page_title = "Managing #{@instance[:name]}"
+	haml :manage	
+end
+
 get '/instance/delete/:id' do
-	params[:id]
+	session!
+	instance = Instance.first(:id => params[:id])
+	
+	if instance.nil? or not instance.user[:email] == session[:email]
+		redirect '/', :error => "Wrong instance."
+	end
+
+	instance.destroy
+	redirect '/', :success => "Instance deleted."
 end
 
 # Login 
@@ -190,6 +222,13 @@ post '/invites/add' do
 	# Send it now
 	message.deliver
 
+	user.created_at = Time.now
+
+	# Reduce the user's invitation numbers
+	inviter = User.first(:email, session[:email])
+	inviter.invites = inviter[:invites] - 1
+	inviter.save
+
 	# Save the user
 	user.save
 
@@ -251,7 +290,6 @@ post '/invites/:key' do
 	end
 
 	user.invitation = false
-	user.invites = user[:invites] - 1
 
 	user.save
 

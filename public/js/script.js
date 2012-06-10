@@ -23,4 +23,9 @@ $(document).ready(function() {
 		$('.invite').lightbox_me();
 		return false;
 	});
+
+	$('a[href="#workspace"]').click(function() {
+		$('.workspace').lightbox_me();
+		return false;
+	});
 });
