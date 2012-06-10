@@ -4,11 +4,17 @@
 			Your instances
 			%span.link
 				%a{:href => '#instance'} + Add instance
-		%ul.instances
-			- @instances.each do |instance|
+
+		%ul
+			- @user.instances.each do |instance|
 				%li
-					%h2 #{@redis.hget "user:#{session['email']}:#{instance}", "title"}
-					%a{:href => "http://#{instance}.riverflow.in", :target => '_blank'} #{instance}.riverflow.in
+					%h2 #{instance[:name]}
+					%p
+						%a{:href => "http://#{instance[:url]}.#{settings.address}", :target => '_blank'} #{instance[:url]}.#{settings.address}
+						%br
+						%small Added on #{instance[:created_at].strftime("%d-%b-%Y")}
+						%br
+						%a{:href => "/instance/delete/#{instance[:id]}"} delete
 .grid_3
 	%h2 First time here?
 	%p
@@ -19,12 +25,12 @@
 
 	%h2
 		Invite a friend
-	- if not @invites == '0'
+	- if not @user[:invites] == '0'
 		%p
-			You have #{@invites} invitations left.
+			You have #{@user[:invites]} invitations left.
 			%a{:href => '#invite'} Invite now!
 	- else
-		%p You don't have invitations left.
+		%p You don't have any invitations left.
 
 #lightbox.box.instance
 	%h1 Add an instance
@@ -42,7 +48,7 @@
 		%input{:type => 'submit', :value => 'Create instance'}
 
 #lightbox.box.invite
-	%h2 Give me an email address:
+	%h2 We need an email address:
 	%form{:action => '/invites/add', :method => 'post'}
 		%p
 			%label

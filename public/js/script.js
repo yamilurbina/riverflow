@@ -1,6 +1,4 @@
-/* Author:
-	Yamil Urbina
-*/
+/* Author: Yamil Urbina <yamilurbina@gmail.com> */
 $(document).ready(function() {
 	$('.msg').slideDown().delay(3000).slideUp();
 
