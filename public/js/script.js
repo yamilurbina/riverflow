@@ -15,17 +15,23 @@ $(document).ready(function() {
 	});
 
 	$('a[href="#workspace"]').click(function() {
+		id = $(this).attr('instance_id');
+		name = $(this).attr('instance_name');
+		$('.workspace h1').text('Add a workspace to ' + name);
+		$('#workspace').attr('action', '/workspace/add/' + id)
 		$('.workspace').lightbox_me();
+		return false;
+	});
+
+	$('a[href="#delworkspace"]').click(function() {
+		id = $(this).attr('instance_id');
+		$('#delworkspace').attr('action', '/workspace/add/' + id)
+		$('.delworkspace').lightbox_me();
 		return false;
 	});
 
 	$('a[href="#invite"]').click(function() {
 		$('.invite').lightbox_me();
-		return false;
-	});
-
-	$('a[href="#workspace"]').click(function() {
-		$('.workspace').lightbox_me();
 		return false;
 	});
 });

@@ -2,23 +2,26 @@
 	.box
 		%h1
 			=@page_title
-			%small
-				#{@instance[:url]}
+			%small= @instance[:url]
 			%span.link
 				%a{:href => '#workspace'} + Add workspace
-		%p
-			Added on
-			=@instance[:created_at].strftime("%d-%b-%Y")
 
 		%h2 Workspaces
+		%ul
+			- @workspaces.each do |workspace|
+				%li
+					= workspace[:name]
+					%small Added on #{workspace[:created_at].strftime("%d-%b-%Y")}
+		%p Yes!
+
 .grid_3
 	%h2 Managing instances
 	%p After you create an instance, it's time for you to create workspaces in ProcessMaker.
 
-
 #lightbox.box.workspace
 	%h1 Add a workspace to #{@instance[:name]}
-	%form{:action => '/workspace/add', :method => 'post'}
+	%p Use a lowercase, no spaces name
+	%form{:action => "/workspace/add/#{params[:id]}", :method => 'post'}
 		%p
 			%label
 				%span Name

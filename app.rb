@@ -1,7 +1,7 @@
 # Riverflow: BPM in the Cloud
 # by Yamil Urbina <yamilurbina@gmail.com>
 # Copyright 2012
-
+require 'rubygems'
 require 'sinatra'
 require 'sinatra/session'
 require 'sinatra/config_file'
@@ -39,7 +39,7 @@ class User
 	property :created_at, DateTime, :default => Time.now
 	# User has many instances
 	has n, :instances
-	has n, :workspaces
+	#has n, :workspaces, :through => :instances
 end
 
 class Instance
@@ -57,10 +57,9 @@ end
 class Workspace
 	include DataMapper::Resource
 	property :id, Serial
-	property :name, String, :length => 3..10, :required => true
+	property :name, String, :index => true, :length => 3..10, :required => true, :unique => true
 	property :created_at, DateTime, :default => Time.now
 	belongs_to :instance
-	belongs_to :user
 end
 
 # end Models
@@ -102,19 +101,16 @@ post '/instance/add' do
 	name = h params['title']
 	url = h params['url']
 
-	user = User.first(:email => session[:email])
+	# Fix? https://gist.github.com/0917fb86aeb8cb67ebf0
+	u = User.first(:email => session[:email])
+	u.instances << i = Instance.new(:name => name, :url => url)
 
-	instance = Instance.new
-	instance.user = user
-	instance.name = name
-	instance.url = url
-
-	if not instance.valid?
-		redirect '/', :error => "The instance values are wrong or it's in use."
+	if not u.valid?
+	 	redirect '/', :error => "The instance values are wrong or it's in use."
 	end
 
-	instance.save
-	redirect '/', :success => "Instance created!"
+	u.save
+	redirect "/instance/manage/#{url}", :success => "Instance created!"
 
 	# c = Curl::Easy.http_post("http://demo.riverflow.in/sysdemo/en/classic/services/riverflow",
 	# 		Curl::PostField.content('name', url),
@@ -125,13 +121,9 @@ end
 get '/instance/manage/:id' do
 	session!
 	@instance = Instance.first(:id => params[:id])
-	
-	if @instance.nil? or not @instance.user[:email] == session[:email]
-		redirect '/', :error => "Wrong instance."
-	end
-
+	@workspaces = Workspace.all(:instance_id => @instance[:id])
 	@page_title = "Managing #{@instance[:name]}"
-	haml :manage	
+	haml :manage
 end
 
 get '/instance/delete/:id' do
@@ -139,11 +131,27 @@ get '/instance/delete/:id' do
 	instance = Instance.first(:id => params[:id])
 	
 	if instance.nil? or not instance.user[:email] == session[:email]
-		redirect '/', :error => "Wrong instance."
+		redirect '/', :error => "That instance id is incorrect."
 	end
 
 	instance.destroy
 	redirect '/', :success => "Instance deleted."
+end
+
+post '/workspace/add/:instance' do
+	session!
+
+	name = h params[:title]
+
+	i = Instance.first(:id => params[:instance])
+	w = Workspace.new(:name => name, :instance => i)
+
+	if not w.valid?
+		redirect "/", :error => w.errors[:name][0]
+	end
+
+	w.save
+	redirect "/", :success => "Workspace created."
 end
 
 # Login 

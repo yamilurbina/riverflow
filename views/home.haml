@@ -5,19 +5,20 @@
 			%span.link
 				%a{:href => '#instance'} + Add instance
 
-		%ul
-			- @user.instances.each do |instance|
-				%li
-					%h2
-						#{instance[:name]}
-						%small
-							%a{:href => "/instance/manage/#{instance[:id]}"} manage
-					%p
-						%a{:href => "http://#{instance[:url]}.#{settings.address}", :target => '_blank'} #{instance[:url]}.#{settings.address}
-						%br
-						%small Added on #{instance[:created_at].strftime("%d-%b-%Y")}
-						%br
-						%a{:href => "/instance/delete/#{instance[:id]}"} delete
+		- @user.instances.each do |instance|
+			%h2
+				#{instance[:name]}
+				%small
+					%a{:href => "/instance/manage/#{instance[:id]}"} manage
+					%small Added on #{instance[:created_at].strftime("%d-%b-%Y")}
+					%a{:href => "/instance/delete/#{instance[:id]}"} delete
+			%ul
+				%a{:href => '#workspace', :instance_id => "#{instance[:id]}", :instance_name => "#{instance[:name]}"} + Add workspace
+				- Workspace.all(:instance_id => instance[:id], :order => [:created_at.desc]).each do |workspace|
+					%li
+						= workspace[:name]
+						%a{:href => '#delworkspace', :instance_id => "#{instance[:id]}"} delete
+
 .grid_3
 	%h2 First time here?
 	%p
@@ -59,3 +60,22 @@
 				%input{:type => 'email', :name => 'email', :placeholder => 'friend@mail.com', :maxlength => '67'}
 
 		%input{:type => 'submit', :value => 'Send invitation'}
+
+#lightbox.box.workspace
+	%h1 Add a workspace to 
+	%p Use a lowercase, no spaces name
+	%form#workspace{:action => "/workspace/add/", :method => 'post'}
+		%p
+			%label
+				%span Name
+				%input{:type => 'text', :name => 'title', :placeholder => 'Latinamerica Branch', :maxlength => '23'}
+
+		%input{:type => 'submit', :value => 'Create workspace'}
+
+#lightbox.box.delworkspace
+	%h1 Are you sure?
+	%p You'll remove all processes, cases and users from this workspace
+	%form#delworkspace{:action => "/workspace/delete", :method => 'post'}
+		%input{:type => 'hidden', :name => 'workspace', :value => ''}
+
+		%input{:type => 'submit', :value => 'I am sure.'}
