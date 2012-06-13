@@ -430,52 +430,59 @@ body {
 @import url(http://fonts.googleapis.com/css?family=Questrial);
 
 body {
-	font-family:'Helvetica',Arial,Sans-Serif;
+	font-family:"colaborate-1","colaborate-2",'Helvetica',Arial,Sans-Serif;
 	font-size:13px;
 	cursor:default;
-	/*background:#F2EDC4;*/
-	background:#fafafa;
+	background:#FEFDD6;
+	/*background:#fafafa url('/images/gplaypattern.png') 0 0 repeat;*/
+	color:#555;
+	line-height:1.6em;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-family:'Questrial','Helvetica',Arial,Sans-Serif;
+	font-family:"adelle-1","adelle-2",'Questrial','Helvetica',Arial,Sans-Serif;
 	line-height:2em;
 	border-bottom:1px solid #c7c7c7;
 	margin:0;
 	padding:0;
 	position:relative;
 	display:block;
+	color:#3E3E37;
 }
 h1 {margin:0;padding:0;}
 p {margin-bottom:18px;}
 
+a {color:#69523B;}
+
 /* Header */
 #header {
-	background:#555;
-	color:#fff;
-	border-bottom:1px solid #faf8fa;
+	background:#677E52;
+	color:#FEFDD6;
+	border-bottom:1px solid #888;
+
+	/*-webkit-box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.5);
+	box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.5);*/
 
 	.container_12 {position:relative;}
 
 	a {color:#fff;text-decoration:none;}
-	h1 {font-size:28px;margin:0;padding:7px 0;border:0;line-height:1.4em;}
+	h1 {font-size:24px;margin:0;padding:9px 0 4px 0;border:0;line-height:1;}
 
 	ul.main_menu {
 		list-style:none;margin:0;padding:0;float:right;
 		li {
 			float:left;
-			text-transform:capitalize;font-size:17px;
-			font-weight:bold;letter-spacing:-1px;
+			font-weight:bold;
 			span {
-				padding:14px;
+				padding:10px;
 				display:block;
 				font-weight:normal;
 			}
 			a {
-				font-size:17px;
+				font-size:13px;
 				display:block;
-				padding:15px;
-				border-left:1px solid #777;
+				padding:7px;
+				border-left:1px solid #fff;
 			}
 			a:hover {
 				background:#666;
