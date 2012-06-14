@@ -16,7 +16,7 @@ $(document).ready(function() {
 	$('a[href="#workspace"]').click(function() {
 		id = $(this).attr('instance_id');
 		name = $(this).attr('instance_name');
-		$('.workspace h1').text('Add a workspace to ' + name);
+		$('.workspace h2').text('Add a workspace to ' + name);
 		$('#workspace').attr('action', '/workspace/add/' + id)
 		$('.workspace').lightbox_me();
 		return false;
