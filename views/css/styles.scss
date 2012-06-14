@@ -536,8 +536,8 @@ span.link {
 		font-family:"Museo Sans 500", Arial, 'Helvetica Neue', Helvetica, sans-serif;
 		text-transform:uppercase;
 		padding:8px;
-		-webkit-box-shadow: 0 3px 4px #bbb;
-		box-shadow: 0 3px 4px #bbb;
+		-webkit-box-shadow: 0 2px 3px #999;
+		box-shadow: 0 2px 3px #999;
 		-webkit-border-radius: 4px;
 		border-radius: 4px;
 	}
@@ -546,7 +546,11 @@ span.link {
 
 #lightbox {
 	display:none;
-	width:480px;
+	width:590px;
+}
+
+#instanceUrl, #workspaceName {
+	text-transform:lowercase;
 }
 
 .box {
@@ -567,6 +571,7 @@ span.link {
 }
 
 form {
+	input {font-family:"Museo Sans 500", Arial, 'Helvetica Neue', Helvetica, sans-serif;}
 	p {
 		margin:8px;
 		display:block;
@@ -580,6 +585,13 @@ form {
 			padding-top:6px;
 			color:#555;
 		}
+		span.unhappyMessage {
+			font-size:11px;
+			color:#C14249;
+			position:absolute;
+			right:50px;
+			width:155px;
+		}
 	}
 	input[type=text], input[type=email], input[type=password] {
 		border:1px solid #bbb;
@@ -588,11 +600,36 @@ form {
 		color:#000;
 		width:240px;
 	}
-	input[type=submit] {
+	/*input[type=submit] {
 		padding:8px 16px;
 		font-weight:bold;
 		display:inline-block;
 		margin:12px 0 8px 20px;
+	}*/
+	input[type=submit] {
+		background-color: #7FBF4D;
+		background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7FBF4D), color-stop(100%, 
+		#63A62F));
+		background-image: -webkit-linear-gradient(top, #7FBF4D, #63A62F);
+		background-image: -moz-linear-gradient(top, #7FBF4D, #63A62F);
+		background-image: -ms-linear-gradient(top, #7FBF4D, #63A62F);
+		background-image: -o-linear-gradient(top, #7FBF4D, #63A62F);
+		background-image: linear-gradient(top, #7FBF4D, #63A62F);
+		border: 1px solid #63A62F;
+		border-bottom: 1px solid #5B992B;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		border-radius: 3px;
+		-webkit-box-shadow: inset 0 1px 0 0 #96CA6D;
+		-moz-box-shadow: inset 0 1px 0 0 #96ca6d;
+		box-shadow: inset 0 1px 0 0 #96CA6D;
+		color: white;
+		line-height: 1;
+		padding:8px 16px;
+		margin:12px 0 8px 20px;
+		text-align: center;
+		text-shadow: 0 -1px 0 #4C9021;
+		width: 150px;
 	}
 	.url {
 		border:1px solid #bbb;
@@ -602,6 +639,38 @@ form {
 		small {font-size:13px;font-weight:bold;}
 	}
 }
+
+/*
+Tipsy tips :P
+http://onehackoranother.com/projects/jquery/tipsy
+*/
+.tipsy { font-size: 11px; position: absolute; padding: 5px; z-index: 100000; }
+  .tipsy-inner { background-color: #000; color: #FFF; max-width: 200px; padding: 5px 8px 4px 8px; text-align: center; }
+
+  /* Rounded corners */
+  .tipsy-inner { border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; }
+  
+  /* Uncomment for shadow */
+  /*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
+  
+  .tipsy-arrow { position: absolute; width: 0; height: 0; line-height: 0; border: 5px dashed #000; }
+  
+  /* Rules to colour arrows */
+  .tipsy-arrow-n { border-bottom-color: #000; }
+  .tipsy-arrow-s { border-top-color: #000; }
+  .tipsy-arrow-e { border-left-color: #000; }
+  .tipsy-arrow-w { border-right-color: #000; }
+  
+	.tipsy-n .tipsy-arrow { top: 0px; left: 50%; margin-left: -5px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent; }
+    .tipsy-nw .tipsy-arrow { top: 0; left: 10px; border-bottom-style: solid; border-top: none; border-left-color: transparent; border-right-color: transparent;}
+    .tipsy-ne .tipsy-arrow { top: 0; right: 10px; border-bottom-style: solid; border-top: none;  border-left-color: transparent; border-right-color: transparent;}
+  .tipsy-s .tipsy-arrow { bottom: 0; left: 50%; margin-left: -5px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+    .tipsy-sw .tipsy-arrow { bottom: 0; left: 10px; border-top-style: solid; border-bottom: none;  border-left-color: transparent; border-right-color: transparent; }
+    .tipsy-se .tipsy-arrow { bottom: 0; right: 10px; border-top-style: solid; border-bottom: none; border-left-color: transparent; border-right-color: transparent; }
+  .tipsy-e .tipsy-arrow { right: 0; top: 50%; margin-top: -5px; border-left-style: solid; border-right: none; border-top-color: transparent; border-bottom-color: transparent; }
+  .tipsy-w .tipsy-arrow { left: 0; top: 50%; margin-top: -5px; border-right-style: solid; border-left: none; border-top-color: transparent; border-bottom-color: transparent; }
+
+
 
 /* =============================================================================
 	 Media Queries

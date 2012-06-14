@@ -36,7 +36,7 @@
 
 					.grid_4
 						%h1
-							%a{:href => '/'} Riverflow
+							%a#eastit{:href => '/', :title => 'Back to home'} Riverflow
 					.grid_8
 						%ul.main_menu
 							- if not session?
@@ -68,6 +68,10 @@
 
 		%script{:src => '/js/libs/jquery-1.7.2.min.js'}
 		%script{:src => '/js/libs/jquery.lightbox_me.js'}
+		%script{:src => '/js/libs/jquery.tipsy.js'}
+		%script{:src => '/js/libs/jquery.mask.min.js'}
+		%script{:src => '/js/libs/happy.js'}
+		%script{:src => '/js/libs/happy.methods.js'}
 		%script{:src => '/js/script.js'}
 
 		%script{:src => "//static.getclicky.com/js"}

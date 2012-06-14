@@ -82,14 +82,19 @@ set :session_name, settings.session_name
 ### Homepage
 get '/' do
 	if session?
-		@user = User.first(:email => session[:email])
-		@page_title = "Control Panel"
-		haml :home
+		redirect '/instances'
 	else
 		# if not, show the page that's gonna sell ;)
 		@page_title = "BPM in the cloud"
 		haml :alternate
 	end
+end
+
+get '/instances' do
+	session!
+	@user = User.first(:email => session[:email])
+	@page_title = "Control Panel"
+	haml :home
 end
 
 #############################
@@ -103,7 +108,7 @@ post '/instance/add' do
 
 	instance = Instance.new
 	instance.name = name
-	instance.url = url
+	instance.url = url.downcase
 	instance.user = User.first(:email => session[:email])
 
 	instance.valid?
@@ -205,7 +210,7 @@ post '/login' do
 	session[:email] = get_user[:email]
 
 	# Redirect to control panel
-	redirect '/', :success => 'Welcome back!'
+	redirect '/instances', :success => 'And you are back. Nice to see you :)'
 end
 
 ## Invitations ##
@@ -316,7 +321,7 @@ post '/invites/:key' do
 	session[:email] = user[:email]
 
 	# Welcome the user
-	redirect '/', :success => 'Enjoy Riverflow :)'
+	redirect '/instances', :success => 'Welcome! Enjoy Riverflow :)'
 end
 
 ######## Logout #######

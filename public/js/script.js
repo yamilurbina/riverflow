@@ -2,12 +2,11 @@
 $(document).ready(function() {
 	$('.msg').fadeIn('slow').delay(4000).fadeOut();
 
-	$('form').each(function(){
-		var $that = $(this);
-		$that.submit(function(){
-			$that.find("input[type='image'],input[type='submit']").attr('disabled', 'true');
-		});
-	});
+	$('form [title]').tipsy({trigger: 'focus', gravity: 's', opacity: 0.7});
+
+	$('#tipit').tipsy({gravity: 's',opacity: 0.7});
+
+	$('a#eastit').tipsy({gravity: 'w',opacity: 0.6});
 
 	$('a[href="#instance"]').click(function() {
 		$('.instance').lightbox_me();
@@ -33,5 +32,59 @@ $(document).ready(function() {
 	$('a[href="#invite"]').click(function() {
 		$('.invite').lightbox_me();
 		return false;
+	});
+
+	$('#instanceUrl, #workspaceName').mask('aaaaaaaaaaaaa');
+
+	// Form Validation by Happy.js
+	// http://happy.js
+
+	// Login form
+	$('#login').isHappy({
+		fields: {
+			"#yourEmail": {
+				required: true,
+				message: "Where's your email?",
+				test: happy.email
+			},
+			"#yourPassword": {
+				required: true,
+				message: "You forgot your password."
+			}
+		}
+	});
+	// Adding and instance
+	$('#addInstance').isHappy({
+		fields: {
+			"#instanceTitle": {
+				required: true,
+				message: "No title? :("
+			},
+			"#instanceUrl": {
+				required: true,
+				message: "No subdomain?"
+			}
+		}
+	});
+
+	// Adding a workspace
+	$('#workspace').isHappy({
+		fields: {
+			"#workspaceName": {
+				required: true,
+				message: "A name is mandatory"
+			}
+		}
+	});
+
+	// Invite someone
+	$('#invite').isHappy({
+		fields: {
+			"#inviteEmail": {
+				required: true,
+				message: "We do need an email address.",
+				test: happy.email
+			}
+		}
 	});
 });
