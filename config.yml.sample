@@ -1,8 +1,30 @@
-session_secret: secret # The name of this session
-session_name: name # The name of your website helps
-address: sample.com # Change this to your website address
-salt: xxxx-xxx # 29 characters. Read more at http://blog.phusion.nl/2009/08/13/securely-store-passwords-with-bcrypt-ruby-now-compatible-with-jruby-and-ruby-1-9/
-postmark_api: XXXX-XXXX # Get your api key at http://postmarkapp.com
-invites_available: 1 # How many invites does the user have?
-workspaces_available: 1 # How many workspaces does the user have?
-clicky_track_number: XXXXX # Get you account at http://getclicky.com
+development:
+ session_secret: secret # The name of this session
+ session_name: name # The name of your website helps
+ address: sample.com # Change this to your website address
+ salt: xxxx-xxx # 29 characters. Read more at http://blog.phusion.nl/2009/08/13/securely-store-passwords-with-bcrypt-ruby-now-compatible-with-jruby-and-ruby-1-9/
+ postmark_api: XXXX-XXXX # Get your api key at http://postmarkapp.com
+ invites_available: 1 # How many invites does the user have?
+ workspaces_available: 1 # How many workspaces does the user have?
+ clicky_track_number: XXXXX # Get you account at http://getclicky.com
+ fontdeck_css: XXX # Using webfonts from http://fontdeck.com
+production:
+ session_secret: secret # The name of this session
+ session_name: name # The name of your website helps
+ address: sample.com # Change this to your website address
+ salt: xxxx-xxx # 29 characters. Read more at http://blog.phusion.nl/2009/08/13/securely-store-passwords-with-bcrypt-ruby-now-compatible-with-jruby-and-ruby-1-9/
+ postmark_api: XXXX-XXXX # Get your api key at http://postmarkapp.com
+ invites_available: 1 # How many invites does the user have?
+ workspaces_available: 1 # How many workspaces does the user have?
+ clicky_track_number: XXXXX # Get you account at http://getclicky.com
+ fontdeck_css: XXX # Using webfonts from http://fontdeck.com
+test:
+ session_secret: secret # The name of this session
+ session_name: name # The name of your website helps
+ address: sample.com # Change this to your website address
+ salt: xxxx-xxx # 29 characters. Read more at http://blog.phusion.nl/2009/08/13/securely-store-passwords-with-bcrypt-ruby-now-compatible-with-jruby-and-ruby-1-9/
+ postmark_api: XXXX-XXXX # Get your api key at http://postmarkapp.com
+ invites_available: 1 # How many invites does the user have?
+ workspaces_available: 1 # How many workspaces does the user have?
+ clicky_track_number: XXXXX # Get you account at http://getclicky.com
+ fontdeck_css: XXX # Using webfonts from http://fontdeck.com
