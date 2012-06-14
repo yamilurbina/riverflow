@@ -4,6 +4,7 @@
 		%meta{:charset => 'utf8'}
 		%meta{:name => "viewport", :content => "width=device-width"}
 		%title #{@page_title} | Riverflow
+		%link{:href => 'http://f.fontdeck.com/s/css/D8y7M/Z1h8ob6zKephijhpQj4N8/localhost/20594.css', :rel => 'stylesheet'}
 		%link{:href => '/styles.css', :rel => 'stylesheet'}
 	%body
 		.wrapper
@@ -46,6 +47,8 @@
 									%span
 										Hey there, #{session[:name]}
 								%li
+									%a{:href => '/settings'} Settings
+								%li
 									%a{:href => '/logout'} Logout
 
 			#content
@@ -59,6 +62,9 @@
 							&copy; 2012 Riverflow.
 							A product by 
 							%a{:href => 'http://yamilurbina.com'} @yamilurbina
+							based on
+							%a{:href => 'http://processmaker'} ProcessMaker.
+
 
 		%script{:src => '/js/libs/jquery-1.7.2.min.js'}
 		%script{:src => '/js/libs/jquery.lightbox_me.js'}
@@ -67,7 +73,3 @@
 		%script{:src => "//static.getclicky.com/js"}
 		%script{:type => "text/javascript"}
 			try{ clicky.init(#{settings.clicky_track_number}); }catch(e){}
-
-		%script{:src => "http://use.typekit.com/jsi3weu.js"}
-		%script{:type => "text/javascript"}
-			try{Typekit.load();}catch(e){}

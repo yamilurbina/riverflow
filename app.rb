@@ -20,7 +20,7 @@ require 'mail'
 config_file 'config.yml'
 
 # Set a redis connection
-redis = Redis.new
+# redis = Redis.new
 
 # Datamapper for everything Redis
 DataMapper.setup(:default, {:adapter => 'redis'})
@@ -39,7 +39,6 @@ class User
 	property :created_at, DateTime, :default => Time.now
 	# User has many instances
 	has n, :instances
-	#has n, :workspaces, :through => :instances
 end
 
 class Instance
@@ -67,6 +66,7 @@ DataMapper.finalize
 
 # mypass = hash = BCrypt::Engine.hash_secret('sample', settings.salt)
 # User.create(:name => 'Yamil', :email => "yamilurbina@gmail.com", :password => mypass)
+# puts "First user Created"
 
 # XSS protection
 helpers do
@@ -101,16 +101,25 @@ post '/instance/add' do
 	name = h params['title']
 	url = h params['url']
 
-	# Fix? https://gist.github.com/0917fb86aeb8cb67ebf0
-	u = User.first(:email => session[:email])
-	u.instances << i = Instance.new(:name => name, :url => url)
+	instance = Instance.new
+	instance.name = name
+	instance.url = url
+	instance.user = User.first(:email => session[:email])
 
-	if not u.valid?
-	 	redirect '/', :error => "The instance values are wrong or it's in use."
+	instance.valid?
+
+	instance.errors.each do |e|
+		puts e
 	end
 
-	u.save
-	redirect "/instance/manage/#{url}", :success => "Instance created!"
+	instance.save
+
+	# if not u.valid?
+	#  	redirect '/', :error => "The instance values are wrong or it's in use."
+	# end
+
+	# u.save
+	# redirect "/instance/manage/#{url}", :success => "Instance created!"
 
 	# c = Curl::Easy.http_post("http://demo.riverflow.in/sysdemo/en/classic/services/riverflow",
 	# 		Curl::PostField.content('name', url),

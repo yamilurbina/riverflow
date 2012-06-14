@@ -1,6 +1,6 @@
 /* Author: Yamil Urbina <yamilurbina@gmail.com> */
 $(document).ready(function() {
-	$('.msg').slideDown().delay(3000).slideUp();
+	$('.msg').fadeIn('slow').delay(4000).fadeOut();
 
 	$('form').each(function(){
 		var $that = $(this);

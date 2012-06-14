@@ -20,13 +20,6 @@
 						%a{:href => '#delworkspace', :instance_id => "#{instance[:id]}"} delete
 
 .grid_3
-	%h2 First time here?
-	%p
-		Begin by creating a ProcessMaker instance.
-		Choose a subdomain and Riverflow will create a workspace with the same name as the subdomain.
-	%p
-		The default user and password for a new subdomain is 'admin'
-
 	%h2
 		Invite a friend
 	- if not @user[:invites] == '0'
