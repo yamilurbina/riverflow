@@ -79,7 +79,7 @@ set :session_fail, '/login'
 set :session_secret, settings.session_secret
 set :session_name, settings.session_name
 
-### Homepage
+# Homepage
 get '/' do
 	if session?
 		redirect '/instances'
@@ -90,6 +90,45 @@ get '/' do
 	end
 end
 
+# Settings
+get '/settings' do
+	session!
+	@page_title = 'Settings'
+	@user = User.first(:email => session[:email])
+	haml :settings
+end
+
+post '/settings' do
+	session!
+	name = h params[:name]
+	email = h params[:email]
+	password = h params[:password]
+	repassword = h params[:repassword]
+
+	u = User.first(:email => session[:email])
+	u.name = name
+	u.email = email
+	u.created_at = Time.now
+	u.raise_on_save_failure = false
+
+	if password == repassword
+		# Hash it
+		hash = BCrypt::Engine.hash_secret(password, settings.salt)
+		u.password = hash
+	else
+		redirect '/settings', :error => 'Passwords must match.'
+	end
+
+	if not u.valid?
+		redirect '/', :error => 'Please check your changes.'
+	end
+
+	u.save
+	session[:name] = name
+	redirect '/instances', :success => 'Your changes were saved.'
+end
+
+# Instances
 get '/instances' do
 	session!
 	@user = User.first(:email => session[:email])
@@ -106,24 +145,18 @@ post '/instance/add' do
 	name = h params['title']
 	url = h params['url']
 
-	instance = Instance.new
-	instance.name = name
-	instance.url = url.downcase
-	instance.user = User.first(:email => session[:email])
+	u = User.first(:id => session[:id])
+	i = Instance.new(:name => name, :url => url, :user => u)
 
-	instance.valid?
+	puts i.valid?
 
-	instance.errors.each do |e|
-		puts e
-	end
+	puts i.save
 
-	instance.save
-
-	# if not u.valid?
+	# if not instance.valid?
 	#  	redirect '/', :error => "The instance values are wrong or it's in use."
 	# end
 
-	# u.save
+	# instance.save
 	# redirect "/instance/manage/#{url}", :success => "Instance created!"
 
 	# c = Curl::Easy.http_post("http://demo.riverflow.in/sysdemo/en/classic/services/riverflow",
@@ -206,6 +239,7 @@ post '/login' do
 
 	# Login da user
 	session_start!
+	session[:id] = get_user[:id]
 	session[:name] = get_user[:name]
 	session[:email] = get_user[:email]
 
@@ -222,7 +256,7 @@ post '/invites/add' do
 	user.email = email
 
 	if not user.valid?
-		redirect '/', :error => 'Something happened. Please check again.'
+		redirect '/', :error => 'Probably that email is in use.'
 	end
 
 	# Generate random string

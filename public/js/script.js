@@ -87,4 +87,33 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	// Invite someone
+	$('#settings').isHappy({
+		fields: {
+			"#settingsName": {
+				required: true,
+				message: "What's your name?"
+			},
+			"#settingsEmail": {
+				required: true,
+				message: "Where's your email?",
+				test: happy.email
+			}
+		}
+	});
+
+	// Signup form
+	$('#signup').isHappy({
+		fields: {
+			"#signupName": {
+				required: true,
+				message: "What's your name?"
+			},
+			"#signupPassword": {
+				required: true,
+				message: "A password is needed."
+			}
+		}
+	});
 });

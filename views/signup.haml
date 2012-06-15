@@ -1,18 +1,15 @@
-.grid_9
+.grid_8.push_2
 	.box
 		%h1 Signup - #{@invite_email}
 		%p So happy you are join in! We just need to register a name and a password and that's it.
-		%form{:action => "/invites/#{@invite}", :method => 'post'}
+		%form#signup{:action => "/invites/#{@invite}", :method => 'post'}
 			%p
-				Name
-				%br
-				%input{:type => 'text', :name => 'name'}
+				%label
+					%span Your name
+					%input#signupName{:type => 'text', :name => 'name', :title => 'Name or a nickname :)'}
 			%p
-				Password
-				%br
-				%input{:type => 'password', :name => 'password'}
-			%p
-				%input{:type => 'submit', :value => 'Sign me up'}
-.grid_3
-	%h2 Congrats :)
-	%p One of your buddies has invited you to join Riverflow. So sit back, relax and enjoy the service.
+				%label
+					%span Password
+					%input#signupPassword{:type => 'password', :name => 'password', :title => '6 to 18 characters'}
+
+			%input{:type => 'submit', :value => 'Sign me up'}
