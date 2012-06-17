@@ -514,6 +514,17 @@ a {color:#679473;}
 	}
 }
 
+#instances_list {
+	position:relative;
+	h2 {
+		background-color:#eee;display:block;
+		padding:10px 12px 8px;position:relative;
+		span {
+			float:right;font-weight:normal;font-size:14px;
+		}
+	}
+}
+
 /* Footer*/
 #footer {
 	h2{border:0;}

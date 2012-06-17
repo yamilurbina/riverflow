@@ -1,22 +1,24 @@
 .grid_9
 	.box
 		%h1
-			Your instances
+			Manage your instances
 			%span.link
 				%a{:href => '#instance'} + Add instance
 
-		- @user.instances.each do |instance|
-			%h2
-				#{instance[:name]}
-				%small
-					%small Added on #{instance[:created_at].strftime("%d-%b-%Y")}
-					%a{:href => "/instance/delete/#{instance[:id]}"} delete
-			%ul
-				%a{:href => '#workspace', :instance_id => "#{instance[:id]}", :instance_name => "#{instance[:name]}"} + Add workspace
-				- Workspace.all(:instance_id => instance[:id], :order => [:created_at.desc]).each do |workspace|
-					%li
-						= workspace[:name]
-						%a{:href => '#delworkspace', :instance_id => "#{instance[:id]}"} delete
+		#instances_list
+			- @user.instances.each do |instance|
+				%h2
+					#{instance[:name]}
+					%span
+						%a{:href => "http://#{instance[:url]}.#{settings.address}", :target => '_blank'} #{instance[:url]}.#{settings.address}
+						%small Added on #{instance[:created_at].strftime("%d-%b-%Y")}
+						%a{:href => "/instance/delete/#{instance[:id]}"} delete
+				%ul
+					%a{:href => '#workspace', :instance_id => "#{instance[:id]}", :instance_name => "#{instance[:name]}"} + Add workspace
+					- Workspace.all(:instance_id => instance[:id], :order => [:created_at.desc]).each do |workspace|
+						%li
+							= workspace[:name]
+							%a{:href => '#delworkspace', :instance_id => "#{instance[:id]}"} delete
 
 .grid_3
 	%h2
@@ -29,19 +31,23 @@
 		%p You don't have any invitations left.
 
 #lightbox.box.instance
-	%h2 Add an instance
-	%form#addInstance{:action => '/instance/add', :method => 'post'}
-		%p
-			%label
-				%span Write a name
-				%input#instanceTitle{:type => 'text', :name => 'title', :placeholder => 'My BPM', :maxlength => '23', :title => 'Enter a clear name'}		
-		%p
-			%label.url
-				%span Also a URL
-				%input#instanceUrl{:type => 'text', :name => 'url', :maxlength => '12', :title => 'No spaces or special characters', :placeholder => 'subdomain'}
-				%small #{".riverflow.in"}
+	- if not @user.instances.count >= settings.instances_available
+		%h2 Add an instance
+		%form#addInstance{:action => '/instance/add', :method => 'post'}
+			%p
+				%label
+					%span Write a name
+					%input#instanceTitle{:type => 'text', :name => 'title', :placeholder => 'My BPM', :maxlength => '23', :title => 'Enter a clear name'}		
+			%p
+				%label.url
+					%span Also a URL
+					%input#instanceUrl{:type => 'text', :name => 'url', :maxlength => '12', :title => 'No spaces or special characters', :placeholder => 'subdomain'}
+					%small #{".riverflow.in"}
 
-		%input{:type => 'submit', :value => 'Create instance'}
+			%input{:type => 'submit', :value => 'Create instance'}
+	- else
+		%h2 You can create #{settings.instances_available} instances for now...
+		%p ...and you have reached that limit. But stay tuned, we'll add more instances soon!
 
 #lightbox.box.invite
 	%h2 We need an email address:

@@ -20,7 +20,7 @@ require 'mail'
 config_file 'config.yml'
 
 # Set a redis connection
-# redis = Redis.new
+redis = Redis.new
 
 # Datamapper for everything Redis
 DataMapper.setup(:default, {:adapter => 'redis'})
@@ -150,6 +150,7 @@ post '/instance/add' do
 
 	puts i.valid?
 
+	redis.sadd('subdomains', url)
 	puts i.save
 
 	# if not instance.valid?
@@ -165,14 +166,6 @@ post '/instance/add' do
 	# puts c.body_str
 end
 
-get '/instance/manage/:id' do
-	session!
-	@instance = Instance.first(:id => params[:id])
-	@workspaces = Workspace.all(:instance_id => @instance[:id])
-	@page_title = "Managing #{@instance[:name]}"
-	haml :manage
-end
-
 get '/instance/delete/:id' do
 	session!
 	instance = Instance.first(:id => params[:id])
@@ -182,6 +175,7 @@ get '/instance/delete/:id' do
 	end
 
 	instance.destroy
+	redis.del('subdomains', instance[:uri])
 	redirect '/', :success => "Instance deleted."
 end
 
