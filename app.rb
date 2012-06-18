@@ -95,6 +95,12 @@ get '/' do
 	end
 end
 
+get '/starting' do
+	session!
+	@page_title = 'Getting Started'
+	haml :starting
+end
+
 # Settings
 get '/settings' do
 	session!
