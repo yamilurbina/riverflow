@@ -335,7 +335,7 @@ post '/invites/:key' do
 	end
 
 	name = h params[:name]
-	password = h params[:password]
+	password = params[:password]
 
 	if name.empty? or password.empty?
 		redirect '/', :error => "Check your fields again."
