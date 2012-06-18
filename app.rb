@@ -120,7 +120,6 @@ post '/settings' do
 	u.name = name
 	u.email = email
 	u.created_at = Time.now
-	u.raise_on_save_failure = false
 
 	if password == repassword
 		# Hash it
@@ -336,10 +335,10 @@ post '/invites/:key' do
 	end
 
 	name = h params[:name]
-	password = params[:password]
+	password = h params[:password]
 
 	if name.empty? or password.empty?
-		redirect '/', :error => "Check your field again"
+		redirect '/', :error => "Check your fields again."
 	end
 
 	# Hash it
@@ -358,13 +357,8 @@ post '/invites/:key' do
 
 	user.save
 
-	# Login the user
-	session_start!
-	session[:name] = name
-	session[:email] = user[:email]
-
 	# Welcome the user
-	redirect '/instances', :success => 'Welcome! Enjoy Riverflow :)'
+	redirect '/login', :success => 'You are registered. Login now.'
 end
 
 ######## Logout #######
