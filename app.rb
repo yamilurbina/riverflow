@@ -173,6 +173,7 @@ get '/instance/delete/:id' do
 	session!
 	instance = Instance.first(:id => params[:id])
 	url = instance[:url]
+	address = instance[:address]
 	
 	if instance.nil? or not instance.user[:email] == session[:email]
 		redirect '/', :error => "That instance id is incorrect."
@@ -180,6 +181,8 @@ get '/instance/delete/:id' do
 
 	instance.destroy
 	redis.srem('subdomains', url)
+	# Delete domain aswell 
+	redis.hdel('domains', address)
 	c = Curl::Easy.http_post(settings.api_address + "outShore",
 		Curl::PostField.content('name', url),
 		Curl::PostField.content('hash', 's0mRIdlKvI'))
