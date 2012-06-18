@@ -32,7 +32,7 @@
 
 	%h2
 		Invite a friend
-	- if not @user[:invites] == '0'
+	- if not @user[:invites] == 0
 		%p
 			Enjoying the service? You have #{@user[:invites]} invitations left, so make good use of them.
 			%a{:href => '#invite'} Invite now
