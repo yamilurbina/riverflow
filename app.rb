@@ -45,6 +45,7 @@ class Instance
 	include DataMapper::Resource
 	property :id, Serial
 	property :name, String, :length => 3..30, :required => true
+	property :address, String, :length => 5..30, :index => true, :unique => true
 	property :url, String, :index => true, :length => 3..60, :unique => true, :required => true
 	property :workspaces, Integer, :default => settings.workspaces_available
 	property :created_at, DateTime, :default => Time.now
@@ -184,6 +185,21 @@ get '/instance/delete/:id' do
 		Curl::PostField.content('hash', 's0mRIdlKvI'))
 	puts c.body_str
 	redirect '/', :success => "Instance deleted."
+end
+
+post '/address/add/:id' do
+	session!
+	address = h params[:address]
+	instance = Instance.first(:id => params[:id])
+	instance.address = address
+
+	if instance.valid?
+		redis.hset('domains', address, instance[:url])
+		instance.save
+		redirect '/instances', :success => 'Domain added. Make sure you modify your domain records to complete this.'
+	else
+		redirect '/instances', :error => 'Something went wrong. Please check again.'
+	end
 end
 
 # Login 

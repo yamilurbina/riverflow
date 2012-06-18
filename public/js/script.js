@@ -6,15 +6,27 @@ $(document).ready(function() {
 
 	$('#tipit').tipsy({gravity: 's',opacity: 0.7});
 
+
 	$('a#eastit').tipsy({gravity: 'w',opacity: 0.6});
 
-	$('a#deleteInstance').tipsy({gravity: 'n',opacity: 0.7}).click(function() {
+	$('a#deleteInstance').tipsy({gravity: 's',opacity: 0.7}).click(function() {
 		if(confirm('Are you really, really sure?')) {
 			return true;
 		}
 		else {
 			return false;
 		}
+	});
+
+	$('a[href="#soon"]').tipsy({gravity: 's',opacity: 0.7});
+
+	$('a[href="#domain"]').tipsy({gravity: 's',opacity: 0.6}).click(function() {
+		id = $(this).attr('instance_id');
+		name = $(this).attr('instance_name');
+		$('.domain h2').text('Add an address to ' + name);
+		$('#domain').attr('action', '/address/add/' + id);
+		$('.domain').lightbox_me();
+		return false;
 	});
 
 	$('a[href="#instance"]').click(function() {
@@ -26,7 +38,7 @@ $(document).ready(function() {
 		id = $(this).attr('instance_id');
 		name = $(this).attr('instance_name');
 		$('.workspace h2').text('Add a workspace to ' + name);
-		$('#workspace').attr('action', '/workspace/add/' + id)
+		$('#workspace').attr('action', '/workspace/add/' + id);
 		$('.workspace').lightbox_me();
 		return false;
 	});
@@ -93,6 +105,16 @@ $(document).ready(function() {
 				required: true,
 				message: "We do need an email address.",
 				test: happy.email
+			}
+		}
+	});
+
+	// Add a domain
+	$('#domain').isHappy({
+		fields: {
+			"#addDomain": {
+				required: true,
+				message: "Where's your domain?",
 			}
 		}
 	});
