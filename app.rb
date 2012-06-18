@@ -67,6 +67,10 @@ DataMapper.finalize
 # mypass = hash = BCrypt::Engine.hash_secret('sample', settings.salt)
 # User.create(:name => 'Yamil', :email => "yamilurbina@gmail.com", :password => mypass)
 # puts "First user Created"
+# user = User.first(:email => 'yamilurbina@gmail.com')
+# Instance.new(:name => 'Master Workflow', :url 'workflow', :user => user)
+# puts 'Instance created.'
+
 
 # XSS protection
 helpers do
