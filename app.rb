@@ -50,16 +50,16 @@ class Instance
 	property :created_at, DateTime, :default => Time.now
 	# Instances belongs to a User
 	belongs_to :user
-	has n, :workspaces
+	# has n, :workspaces
 end
 
-class Workspace
-	include DataMapper::Resource
-	property :id, Serial
-	property :name, String, :index => true, :length => 3..10, :required => true, :unique => true
-	property :created_at, DateTime, :default => Time.now
-	belongs_to :instance
-end
+# class Workspace
+# 	include DataMapper::Resource
+# 	property :id, Serial
+# 	property :name, String, :index => true, :length => 3..10, :required => true, :unique => true
+# 	property :created_at, DateTime, :default => Time.now
+# 	belongs_to :instance
+# end
 
 # end Models
 DataMapper.finalize
@@ -148,51 +148,38 @@ post '/instance/add' do
 	u = User.first(:id => session[:id])
 	i = Instance.new(:name => name, :url => url, :user => u)
 
-	puts i.valid?
+
+	if not i.valid?
+	  	redirect '/', :error => "The instance values are wrong or it's in use."
+	end
 
 	redis.sadd('subdomains', url)
-	puts i.save
+	i.save
 
-	# if not instance.valid?
-	#  	redirect '/', :error => "The instance values are wrong or it's in use."
-	# end
+	c = Curl::Easy.http_post("http://workflow.riverflow.de/sysworkflow/en/classic/services/shore",
+		Curl::PostField.content('name', url),
+		Curl::PostField.content('hash', 's0mRIdlKvI'))
+	puts c.body_str
 
-	# instance.save
-	# redirect "/instance/manage/#{url}", :success => "Instance created!"
-
-	# c = Curl::Easy.http_post("http://demo.riverflow.in/sysdemo/en/classic/services/riverflow",
-	# 		Curl::PostField.content('name', url),
-	# 		Curl::PostField.content('hash', 's0mRIdlKvI'))
-	# puts c.body_str
+	redirect "/instances", :success => "Instance created! Launch it by clicking the link next to the title."
 end
 
 get '/instance/delete/:id' do
 	session!
 	instance = Instance.first(:id => params[:id])
+	url = instance[:url]
 	
 	if instance.nil? or not instance.user[:email] == session[:email]
 		redirect '/', :error => "That instance id is incorrect."
 	end
 
 	instance.destroy
-	redis.del('subdomains', instance[:uri])
+	redis.srem('subdomains', url)
+	c = Curl::Easy.http_post("http://workflow.riverflow.de/sysworkflow/en/classic/services/outShore",
+		Curl::PostField.content('name', url),
+		Curl::PostField.content('hash', 's0mRIdlKvI'))
+	puts c.body_str
 	redirect '/', :success => "Instance deleted."
-end
-
-post '/workspace/add/:instance' do
-	session!
-
-	name = h params[:title]
-
-	i = Instance.first(:id => params[:instance])
-	w = Workspace.new(:name => name, :instance => i)
-
-	if not w.valid?
-		redirect "/", :error => w.errors[:name][0]
-	end
-
-	w.save
-	redirect "/", :success => "Workspace created."
 end
 
 # Login 

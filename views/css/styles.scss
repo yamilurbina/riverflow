@@ -549,6 +549,15 @@ a {color:#679473;}
 	border-radius:3px;
 }
 
+.question {
+	display:block;
+	background:#444;
+	text-align:center;
+	width:180px;
+	position:absolute;
+	span {text-align:center;display:block;}
+}
+
 span.link {
 	position:absolute;
 	top:2px; right:0;

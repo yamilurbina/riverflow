@@ -8,6 +8,15 @@ $(document).ready(function() {
 
 	$('a#eastit').tipsy({gravity: 'w',opacity: 0.6});
 
+	$('a#deleteInstance').tipsy({gravity: 'n',opacity: 0.7}).click(function() {
+		if(confirm('Are you really, really sure?')) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	});
+
 	$('a[href="#instance"]').click(function() {
 		$('.instance').lightbox_me();
 		return false;

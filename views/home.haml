@@ -9,26 +9,26 @@
 			- @user.instances.each do |instance|
 				%h2
 					#{instance[:name]}
-					%span
+					%small
 						%a{:href => "http://#{instance[:url]}.#{settings.address}", :target => '_blank'} #{instance[:url]}.#{settings.address}
-						%small Added on #{instance[:created_at].strftime("%d-%b-%Y")}
-						%a{:href => "/instance/delete/#{instance[:id]}"} delete
-				%ul
-					%a{:href => '#workspace', :instance_id => "#{instance[:id]}", :instance_name => "#{instance[:name]}"} + Add workspace
-					- Workspace.all(:instance_id => instance[:id], :order => [:created_at.desc]).each do |workspace|
-						%li
-							= workspace[:name]
-							%a{:href => '#delworkspace', :instance_id => "#{instance[:id]}"} delete
+					%span
+						%a#deleteInstance{:href => "/instance/delete/#{instance[:id]}", :title => 'DANGER! This will remove all your processes, cases and users.'} Delete
+				%p	Added on #{instance[:created_at].strftime("%b-%d-%Y")} |
+					
 
 .grid_3
+	%h2 We are on Beta now
+	%p Some things may look pretty basic, but this is just the beginning. Help us improve Riverflow.
+
 	%h2
 		Invite a friend
 	- if not @user[:invites] == '0'
 		%p
-			You have #{@user[:invites]} invitations left.
-			%a{:href => '#invite'} Invite now!
+			Enjoying the service? You have #{@user[:invites]} invitations left, so make good use of them.
+			%a{:href => '#invite'} Invite now
 	- else
 		%p You don't have any invitations left.
+
 
 #lightbox.box.instance
 	- if not @user.instances.count >= settings.instances_available
