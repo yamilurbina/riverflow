@@ -154,11 +154,10 @@ post '/instance/add' do
 	session!
 
 	name = h params['title']
-	url = h params['url']
+	url = params['url']
 
-	u = User.first(:id => session[:id])
+	u = User.first(:email => session[:email])
 	i = Instance.new(:name => name, :url => url, :user => u)
-
 
 	if not i.valid?
 	  	redirect '/', :error => "The instance values are wrong or it's in use."
