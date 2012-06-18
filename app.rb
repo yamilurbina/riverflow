@@ -160,7 +160,7 @@ post '/instance/add' do
 	redis.sadd('subdomains', url)
 	i.save
 
-	c = Curl::Easy.http_post("http://workflow.riverflow.de/sysworkflow/en/classic/services/shore",
+	c = Curl::Easy.http_post(settings.api_address + "shore",
 		Curl::PostField.content('name', url),
 		Curl::PostField.content('hash', 's0mRIdlKvI'))
 	puts c.body_str
@@ -179,7 +179,7 @@ get '/instance/delete/:id' do
 
 	instance.destroy
 	redis.srem('subdomains', url)
-	c = Curl::Easy.http_post("http://workflow.riverflow.de/sysworkflow/en/classic/services/outShore",
+	c = Curl::Easy.http_post(settings.api_address + "outShore",
 		Curl::PostField.content('name', url),
 		Curl::PostField.content('hash', 's0mRIdlKvI'))
 	puts c.body_str
