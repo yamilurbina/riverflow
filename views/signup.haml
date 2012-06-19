@@ -1,12 +1,18 @@
 .grid_8.push_2
 	.box
-		%h1 Signup - #{@invite_email}
-		%p So happy you are join in! We just need to register a name and a password and that's it.
+		%h1 Signup now
+		%p So happy you are join in! Just fill in the missing details and that's it.
 		%form#signup{:action => "/invites/#{@invite}", :method => 'post'}
 			%p
 				%label
 					%span Your name
 					%input#signupName{:type => 'text', :name => 'name', :title => 'Name or a nickname :)'}
+
+			%p
+				%label
+					%span Email
+					%input#emailAddress{:type => 'text', :name => 'email', :disabled => 'disabled', :value => @invite_email}
+
 			%p
 				%label
 					%span Password

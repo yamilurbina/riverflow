@@ -362,7 +362,7 @@ post '/invites/:key' do
 	u.save
 
 	# Welcome the user
-	redirect '/login', :success => 'You are registered. Login now.'
+	redirect '/login', :success => 'Registered. Enjoy the service :)'
 end
 
 ######## Logout #######
