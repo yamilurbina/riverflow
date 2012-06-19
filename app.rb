@@ -29,13 +29,13 @@ DataMapper.setup(:default, {:adapter => 'redis'})
 class User
 	include DataMapper::Resource
 	property :id, Serial
-	property :name, String, :length => 3..30
+	property :name, String, :length => 3..30, :required => true
 	property :email, String, :index => true, :unique => true, :format => :email_address, :length => 4..40, :required => true
 	# If user has been invited
-	property :invitation, String, :index => true, :unique => true
+	property :invitation, String, :index => true
 	# Number of invites
 	property :invites, Integer, :default => settings.invites_available
-	property :password, String, :length => 0..60
+	property :password, String, :index => true, :length => 0..80
 	property :created_at, DateTime, :default => Time.now
 	# User has many instances
 	has n, :instances
@@ -69,7 +69,8 @@ DataMapper.finalize
 # User.create(:name => 'Yamil', :email => "yamilurbina@gmail.com", :password => mypass)
 # puts "First user Created"
 # user = User.first(:email => 'yamilurbina@gmail.com')
-# Instance.new(:name => 'Master Workflow', :url 'workflow', :user => user)
+# Instance.create(:name => 'Master Workflow', :url => 'workflow', :user => user)
+# redis.sadd('subdomains', 'workflow')
 # puts 'Instance created.'
 
 
@@ -113,21 +114,26 @@ post '/settings' do
 	session!
 	name = h params[:name]
 	email = h params[:email]
-	password = h params[:password]
-	repassword = h params[:repassword]
+	password = params[:password]
+	repassword = params[:repassword]
 
 	u = User.first(:email => session[:email])
 	u.name = name
 	u.email = email
 	u.created_at = Time.now
 
-	if password == repassword
-		# Hash it
-		hash = BCrypt::Engine.hash_secret(password, settings.salt)
-		u.password = hash
-	else
-		redirect '/settings', :error => 'Passwords must match.'
+	if not password.empty?
+		puts 'Saving password'
+		if password == repassword
+			# Hash it
+			hash = BCrypt::Engine.hash_secret(password, settings.salt)
+			u.password = hash
+		else
+			redirect '/settings', :error => 'Passwords must match.'
+		end
 	end
+
+	puts 'password unchanged.'
 
 	if not u.valid?
 		redirect '/', :error => 'Please check your changes.'
@@ -252,7 +258,7 @@ post '/login' do
 	session[:email] = get_user[:email]
 
 	# Redirect to control panel
-	redirect '/instances', :success => 'And you are back. Nice to see you :)'
+	redirect '/instances', :success => 'Welcome back. Nice to see you :)'
 end
 
 ## Invitations ##
@@ -261,6 +267,7 @@ post '/invites/add' do
 	email = h params[:email]
 
 	user = User.new
+	user.name = 'Full Name'
 	user.email = email
 
 	if not user.valid?
@@ -328,34 +335,31 @@ post '/invites/:key' do
 	key = params[:key]
 
 	# Get the user based on email
-	user = User.first(:invitation => key)
+	u = User.first(:invitation => key)
 
-	if user.nil?
+	if u.nil?
 		redirect '/', :error => "Something went wrong. Try again."
 	end
 
-	name = h params[:name]
+	name = params[:name]
 	password = params[:password]
-
-	if name.empty? or password.empty?
-		redirect '/', :error => "Check your fields again."
-	end
 
 	# Hash it
 	hash = BCrypt::Engine.hash_secret(password, settings.salt)
 
-	# Register the user
-	user.name = name
-	user.password = hash
-	user.created_at = Time.now
+	u.name = name
+	u.password = hash
+	u.created_at = Time.now
+	u.invitation = false
 
-	if not user.valid?
-		redirect '/invites/#{key}', :error => "Check your fields again."
+	if not u.valid?
+		u.errors.each do |e|
+			puts e
+		end
+		redirect "/invites/#{key}", :error => "Check your fields again."
 	end
 
-	user.invitation = false
-
-	user.save
+	u.save
 
 	# Welcome the user
 	redirect '/login', :success => 'You are registered. Login now.'
