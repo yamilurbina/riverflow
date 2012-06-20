@@ -93,7 +93,7 @@ get '/' do
 		redirect '/instances'
 	else
 		# if not, show the page that's gonna sell ;)
-		@page_title = "BPM in the cloud"
+		@page_title = "Business Process Management in the cloud, no configuration or deploys"
 		haml :alternate
 	end
 end

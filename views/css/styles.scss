@@ -426,29 +426,32 @@ body {
 /* ===== Primary Styles ========================================================
 	 Author: Yamil Urbina
 ========================================================================== */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+
+
 body {
-	font-family:"Museo Sans 500", Arial, 'Helvetica Neue', Helvetica, sans-serif;
-	font-weight:500;
-	font-style:normal;
+	font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
 	font-size:13px;
-	color:#555;
+	color:#685C5E;
 	background:#E5ECDA;
 	cursor:default;
-	line-height:1.4em;
+	line-height:1.6em;
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-family:"Adelle Bold", Georgia, serif;
-	font-size-adjust:0.523;
+	font-family:'Open Sans',Arial,Sans-Serif;
 	font-weight:bold;
 	font-style:normal;
 	margin:0;
-	padding:11px 0 8px 0;
+	padding:8px 0 3px 0;
 	position:relative;
 	display:block;
-	color:#444;
+	color:#555;
 	text-shadow: 0 1px 0 white;
 	border-bottom:1px solid #ccc;
+	letter-spacing:-0.06em;
+	line-height:1.1em;
 }
 
 p {margin-bottom:18px;}
@@ -459,17 +462,15 @@ a {color:#679473;}
 #header {
 	background:#4F747D;
 	border-bottom:1px solid #685C5E;
-	text-shadow: 1px 1px 0 rgba(34, 23, 23, 0.6);
-	padding-bottom:2px;
+	/*text-shadow: 1px 1px 0 rgba(34, 23, 23, 0.6);*/
 	/*-webkit-box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.5);
 	box-shadow: 0px 1px 5px 1px rgba(0, 0, 0, 0.5);*/
 	.container_12 {position:relative;}
-
-	a {color:#fff;text-decoration:none;}
+	a {color:#fff;text-decoration:none;font-weight:normal;}
 	h1 {
-		font-size:24px;margin:0;border:0;line-height:1;text-shadow: 1px 1px 0 rgba(34, 23, 23, 0.6);
+		font-size:24px;margin:7px 0 0 0;border:0;line-height:1;;
 		a {
-    		width: 190px;
+    		width: 185px;
     		height: 24px;
     		background: transparent url('/images/riverflow.png') 0 0 no-repeat;
     		display: block;
@@ -480,13 +481,12 @@ a {color:#679473;}
 	}
 
 	ul.main_menu {
-		list-style:none;margin:0;padding:0;float:right;color:#fff;
+		list-style:none;margin:12px 0 11px 0;padding:0;float:right;color:#fff;
 		font-size:15px;
-		padding-top:12px;
 		li {
 			float:left;
 			font-weight:bold;
-			margin-left:12px;
+			margin-left:36px;
 			display: inline-block;
 			span {
 				display:block;
@@ -494,20 +494,78 @@ a {color:#679473;}
 				padding:1px 4px;
 			}
 			a {
+				padding:5px 0 6px 0;
 				display:block;
-				background:#679473;
-				padding:1px 5px;
+				color:#E5ECDA;
+				font-weight:bold;
 			}
 			a:hover {
-				background:#666;
+				color:#B6E7E1;
 			}
+
+			a.btn {
+				display:inline-block;
+				font-weight:bold;
+				background-color: #7FBF4D;
+				padding:6px 16px;
+				text-shadow: 1px 1px 0 rgba(34, 23, 23, 0.5);
+				background-color: #7FBF4D;
+				background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #7FBF4D), color-stop(100%, 
+				#63A62F));
+				background-image: -webkit-linear-gradient(top, #7FBF4D, #63A62F);
+				background-image: -moz-linear-gradient(top, #7FBF4D, #63A62F);
+				background-image: -ms-linear-gradient(top, #7FBF4D, #63A62F);
+				background-image: -o-linear-gradient(top, #7FBF4D, #63A62F);
+				background-image: linear-gradient(top, #7FBF4D, #63A62F);
+				border: 1px solid #63A62F;
+				border-bottom: 1px solid #5B992B;
+				-webkit-border-radius: 3px;
+				-moz-border-radius: 3px;
+				border-radius: 3px;
+				-webkit-box-shadow: inset 0 1px 0 0 #96CA6D;
+				-moz-box-shadow: inset 0 1px 0 0 #96ca6d;
+				box-shadow: inset 0 1px 0 0 #96CA6D;
+				color: white;
+				line-height: 1;
+				text-align: center;
+				text-shadow: 0 -1px 0 #4C9021;
+			}
+		}
+	}
+}
+
+/* Big Menu */
+#big-menu {
+	.grid_8 {border-bottom:1px solid #bbb;}
+	ul {
+		list-style:none;margin:28px 0 0 0;padding:0;
+		font-size:17px;		
+		li {
+			display:block;float:left;margin:0 4px;
+			a {
+				font-weight:bold;color:#777;text-decoration:none;
+				padding:4px 8px;
+			}
+			a:hover, a.selected {
+				color:#E0815E;
+			}
+		}
+	}
+
+	.user_info {
+		background:#f5f8f0;border:1px solid #ccc;border-top:0;
+		-webkit-border-radius:3px;border-radius:3px;
+		.info {
+			font-size:15px;text-align:right;font-weight:normal;
+			padding:8px 12px 8px;
+			a.settings {font-size:13px;display:block;font-weight:bold;}
 		}
 	}
 }
 
 /* Content */
 #content {
-	padding:24px 0;
+	padding:18px 0;
 	h1 {
 		border-bottom:1px solid #ccc;
 		padding-bottom:20px;margin:0 0 16px 0;
@@ -564,7 +622,7 @@ span.link {
 	a {
 		background:#C14249;color:#fff;text-shadow: 1px 1px 0 rgba(34, 23, 23, 0.6);
 		text-decoration:none;font-size:12px;
-		font-family:"Museo Sans 500", Arial, 'Helvetica Neue', Helvetica, sans-serif;
+		font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;
 		text-transform:uppercase;
 		padding:8px;
 		-webkit-box-shadow: 0 2px 3px #999;
@@ -586,7 +644,7 @@ span.link {
 
 .box {
 	background-color:#fff;
-	padding:13px 18px 20px;
+	padding:13px 22px 20px;
 	border:1px solid #bbb;
 	-webkit-box-shadow: 0 3px 4px #bbb;
 	box-shadow: 0 3px 4px #bbb;
@@ -602,7 +660,7 @@ span.link {
 }
 
 form {
-	input {font-family:"Museo Sans 500", Arial, 'Helvetica Neue', Helvetica, sans-serif;}
+	input {font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;}
 	p {
 		margin:8px;
 		display:block;
@@ -660,7 +718,6 @@ form {
 		margin:12px 0 8px 20px;
 		text-align: center;
 		text-shadow: 0 -1px 0 #4C9021;
-		width: 150px;
 	}
 	.url {
 		border:1px solid #bbb;

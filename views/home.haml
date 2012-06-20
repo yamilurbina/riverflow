@@ -61,6 +61,8 @@
 					%small #{".riverflow.in"}
 
 			%input{:type => 'submit', :value => 'Create instance'}
+			or
+			%a.close{:href => '#'} Close
 	- else
 		%h2 You can create #{settings.instances_available} instances for now...
 		%p ...and you have reached that limit. But stay tuned, we'll add more instances soon!
@@ -74,6 +76,8 @@
 				%input#inviteEmail{:type => 'email', :name => 'email', :placeholder => 'friend@mail.com', :maxlength => '67'}
 
 		%input{:type => 'submit', :value => 'Send invitation'}
+		or
+		%a.close{:href => '#'} Close
 
 #lightbox.box.domain
 	%h2 Add a domain name
@@ -90,6 +94,8 @@
 			in your domain control panel and CNAME records to enable this feature.
 
 		%input{:type => 'submit', :value => 'Add domain name'}
+		or
+		%a.close{:href => '#'} Close
 
 #lightbox.box.workspace
 	%h2 Add a workspace to 
@@ -100,6 +106,8 @@
 				%input#workspaceName{:type => 'text', :name => 'title', :title => 'Use a lowercase, no spaces name', :maxlength => '23'}
 
 		%input{:type => 'submit', :value => 'Create workspace'}
+		or
+		%a.close{:href => '#'} Close
 
 #lightbox.box.delworkspace
 	%h1 Are you sure?
@@ -108,3 +116,4 @@
 		%input{:type => 'hidden', :name => 'workspace', :value => ''}
 
 		%input{:type => 'submit', :value => 'I am sure.'}
+		
