@@ -147,4 +147,18 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	// reset password form
+	$('#reset').isHappy({
+		fields: {
+			"#newPassword": {
+				required: true,
+				message: "This is required."
+			},
+			"#rePassword": {
+				required: true,
+				message: "Repeat your password."
+			}
+		}
+	});
 });

@@ -1,0 +1,13 @@
+%p Hello #{@user},
+
+%p It seems like you forgot your password, but don't worry, we got you covered. Reset it by clicking on this link:
+
+%p
+	%a{:href => "#{@uri}"} #{@uri}
+
+%p If you didn't intend to reset your password, just ignore this email and your account details won't be changed.
+
+%p
+	The Riverflow Robot
+	%br
+	%a{:href => 'http://riverflow.in'} riverflow.in

@@ -35,6 +35,8 @@ class User
 	property :invitation, String, :index => true
 	# Number of invites
 	property :invites, Integer, :default => settings.invites_available
+	# Resetting password?
+	property :reset, String, :index => true
 	property :password, String, :index => true, :length => 0..80
 	property :created_at, DateTime, :default => Time.now
 	# User has many instances
@@ -363,6 +365,98 @@ post '/invites/:key' do
 
 	# Welcome the user
 	redirect '/login', :success => 'Registered. Enjoy the service :)'
+end
+
+# Password forgotten
+get '/i/forgot/my/password' do
+	if session?
+		redirect '/instances', :error => 'You are already logged in'
+	else
+		@page_title = "Reset your password"
+		haml :forgotpassword
+	end
+end
+
+post '/i/forgot/my/password' do
+	if params[:email].empty?
+		redirect '/i/forgot/my/password', :error => 'No email address?'
+	end
+
+	# get the user
+	r = User.first(:email => params[:email])
+
+	# user doesn't exist?
+	if r.nil?
+		redirect '/i/forgot/my/password', :error => 'That email address is not in use.'
+	end
+
+	# Send the reset email
+
+	# Generate random string
+	o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
+	string  =  (0..8).map{ o[rand(o.length)]  }.join;
+
+	@uri = "http://#{settings.address}/reset/#{string}"
+	@user = r.name			
+	# Send the reset email!
+	message = Mail.new
+	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
+	message.from = "invites@riverflow.in"
+	message.to = r.email
+	message.subject = "Reset your password at Riverflow"
+	message.content_type = "text/html"
+	message.body = haml :reset, :layout => false
+	# Send it now
+	message.deliver
+
+	# save the string
+	r.reset = string
+	r.save
+
+	redirect '/', :success => 'Check your email for instructions.'
+end
+
+get '/reset/:reset' do
+	if session?
+		redirect '/', :error => 'You are already logged in.'
+	end
+
+	r = User.first(:reset => params[:reset])
+	if r.nil?
+		redirect '/', :error => 'Invalid reset key.'
+	end
+
+	@user = r
+	@page_title = "Resetting your password"
+	haml :resetting
+end
+
+post '/reset/:reset' do
+	if session?
+		redirect '/', :error => 'You are already logged in.'
+	end
+
+	r = User.first(:reset => params[:reset])
+	if r.nil?
+		redirect '/', :error => 'Invalid reset key.'
+	end
+
+	if params[:password] != params[:repassword]
+		redirect "/reset/#{params[:reset]}", :error => 'Passwords must be the same.'
+	end
+
+	# Hash it
+	hash = BCrypt::Engine.hash_secret(params[:password], settings.salt)
+	r.password = hash
+
+	if not r.valid?
+		redirect "/reset/#{params[:reset]}", :error => 'Something went wrong. Try again'
+	end
+
+	r.reset = false
+
+	r.save
+	redirect '/login', :success => 'Your password has been changed.'
 end
 
 ######## Logout #######

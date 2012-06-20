@@ -1,0 +1,20 @@
+.grid_8.push_2
+	.box
+		%h1 #{@page_title}
+		%form#reset{:action => "/reset/#{@user.reset}", :method => 'post'}
+			%p
+				%label
+					%span Email
+					%input{:type => 'text', :name => 'email', :disabled => 'disabled', :value => @user.email}
+
+			%p
+				%label
+					%span New password
+					%input#newPassword{:type => 'password', :name => 'password', :title => '6 to 18 characters'}
+
+			%p
+				%label
+					%span Repeat
+					%input#rePassword{:type => 'password', :name => 'repassword'}
+
+			%input{:type => 'submit', :value => 'Reset'}

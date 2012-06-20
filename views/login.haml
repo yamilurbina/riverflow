@@ -1,7 +1,9 @@
 .grid_8.push_2
 	.box
 		%h1= @page_title
-		%p Don't have an account? Ask a friend or colleague to send you an invite :)
+		%p
+			Don't have an account? Ask a friend or colleague to send you an invite :). Did you forget your password?
+			%a{:href => '/i/forgot/my/password'} Reset it here.
 		%form#login{:action => '/login', :method => 'post'}
 			%p
 				%label
