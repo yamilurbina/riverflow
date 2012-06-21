@@ -2,8 +2,8 @@
 	.box
 		%h1= @page_title
 		%p
-			Don't have an account? Ask a friend or colleague to send you an invite :). Did you forget your password?
-			%a{:href => '/i/forgot/my/password'} Reset it here.
+			Don't have an account? Ask a friend or colleague to send you an invite :)
+			
 		%form#login{:action => '/login', :method => 'post'}
 			%p
 				%label
@@ -16,3 +16,5 @@
 					%input#yourPassword{:type => 'password', :name => 'password', :maxlength => '67'}
 
 			%input{:type => 'submit', :value => 'Login'}
+			or
+			%a{:href => '/i/forgot/my/password'} Forgot password?

@@ -48,7 +48,6 @@
 							%li
 								%a{:href => 'http://blog.riverflow.in'} Blog
 
-
 							- if not session?
 								%li
 									%a.btn{:href => '/login'} Login
@@ -56,19 +55,20 @@
 								%li
 									%a{:href => '/logout'} Logout
 
-			#big-menu
-				.container_12
-					.grid_8
-						%ul
-							%li
-								%a.selected{:href => '/'} Instances
-							%li
-								%a#eastit{:href => '#', :title => 'Very soon :)'} Backups
+			- if session?
+				#big-menu
+					.container_12
+						.grid_8
+							%ul
+								%li
+									%a.selected{:href => '/'} Instances
+								%li
+									%a#eastit{:href => '#', :title => 'Very soon :)'} Backups		
 
-					.grid_3.push_1.user_info
-						.info
-							Hello, #{session[:name]}
-							%a.settings{:href => '/settings'} Settings
+						.grid_3.push_1.user_info
+							.info
+								Hello, #{session[:name]}
+								%a.settings{:href => '/settings'} Settings
 
 			#content
 				.container_12
