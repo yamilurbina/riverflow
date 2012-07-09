@@ -27,24 +27,17 @@
 					
 
 .grid_3
-	%h2 Feedback is important
-	%p As a beta tester, help us improve Riverflow by sending your feedback. We are open to any comments :)
-
-	%h2 Adding Instances
-	%p
-		The username and password for all new instances is '
-		%b admin
-		'. We recommend you to change it.
-
 	%h2
-		Invite a friend
+		Invite your friends
 	- if not @user[:invites] <= 0
 		%p
-			Enjoying the service? You have #{@user[:invites]} invitations left, so make good use of them.
+			Spread the word about Riverflow and get early access to new features. You have #{@user[:invites]} invitations left.
 			%a{:href => '#invite'} Invite now
 	- else
 		%p You don't have any invitations left.
 
+	%h2 Feedback is important
+	%p As a beta tester, help us improve Riverflow by sending your feedback. We are open to any comments :)
 
 #lightbox.box.instance
 	- if not @user.instances.count >= settings.instances_available
@@ -63,7 +56,6 @@
 			%input#waiting{:type => 'submit', :value => 'Create instance'}
 			or
 			%a.close{:href => '#'} Close
-		%p The magic behinds the scenes takes some time. So wait for it.
 
 	- else
 		%h2 You can create #{settings.instances_available} instances for now...

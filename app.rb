@@ -189,7 +189,7 @@ post '/instance/add' do
 	# Send it now
 	message.deliver
 
-	redirect "/instances", :success => "Instance created! Launch it by clicking the link next to the title."
+	redirect "/instances", :success => "Instance created! Check your email for more details."
 end
 
 get '/instance/delete/:id' do
