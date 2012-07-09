@@ -8,7 +8,8 @@ development:
  workspaces_available: 1 # How many workspaces does the user have?
  clicky_track_number: XXXXX # Get you account at http://getclicky.com
  fontdeck_css: XXX # Using webfonts from http://fontdeck.com
- api_address: XXX # This is top secret.]
+ api_address: XXX # This is top secret.
+ processmaker_hash: XXX # A secret hash
 production:
  session_secret: secret # The name of this session
  session_name: name # The name of your website helps
@@ -19,7 +20,8 @@ production:
  workspaces_available: 1 # How many workspaces does the user have?
  clicky_track_number: XXXXX # Get you account at http://getclicky.com
  fontdeck_css: XXX # Using webfonts from http://fontdeck.com
- api_address: XXX # This is top secret.]
+ api_address: XXX # This is top secret.
+ processmaker_hash: XXX # A secret hash
 test:
  session_secret: secret # The name of this session
  session_name: name # The name of your website helps
@@ -30,4 +32,5 @@ test:
  workspaces_available: 1 # How many workspaces does the user have?
  clicky_track_number: XXXXX # Get you account at http://getclicky.com
  fontdeck_css: XXX # Using webfonts from http://fontdeck.com
- api_address: XXX # This is top secret.]
+ api_address: XXX # This is top secret.
+ processmaker_hash: XXX # A secret hash

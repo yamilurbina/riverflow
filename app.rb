@@ -171,7 +171,7 @@ post '/instance/add' do
 
 	c = Curl::Easy.http_post(settings.api_address + "shore",
 		Curl::PostField.content('name', @url),
-		Curl::PostField.content('hash', 's0mRIdlKvI'))
+		Curl::PostField.content('hash', settings.processmaker_hash))
 	puts c.body_str
 
 	redis.sadd('subdomains', @url)
@@ -207,7 +207,7 @@ get '/instance/delete/:id' do
 	redis.hdel('domains', address)
 	c = Curl::Easy.http_post(settings.api_address + "outShore",
 		Curl::PostField.content('name', url),
-		Curl::PostField.content('hash', 's0mRIdlKvI'))
+		Curl::PostField.content('hash', settings.processmaker_hash))
 	puts c.body_str
 	redirect '/', :success => "Instance deleted."
 end
