@@ -60,12 +60,15 @@
 					%input#instanceUrl{:type => 'text', :name => 'url', :maxlength => '12', :title => 'No spaces or special characters', :placeholder => 'subdomain'}
 					%small #{".riverflow.in"}
 
-			%input{:type => 'submit', :value => 'Create instance'}
+			%input#waiting{:type => 'submit', :value => 'Create instance'}
 			or
 			%a.close{:href => '#'} Close
+		%p The magic behinds the scenes takes some time. So wait for it.
+
 	- else
 		%h2 You can create #{settings.instances_available} instances for now...
 		%p ...and you have reached that limit. But stay tuned, we'll add more instances soon!
+
 
 #lightbox.box.invite
 	%h2 We need an email address:

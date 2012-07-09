@@ -55,6 +55,11 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// A waiting message
+	// $('input#waiting').click(function() {
+	// 	$('.instance').append('<p>wait.</p>');
+	// });
+
 	$('#instanceUrl, #workspaceName').mask('aaaaaaaaaaaaa');
 
 	// Form Validation by Happy.js
