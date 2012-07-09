@@ -160,23 +160,34 @@ end
 post '/instance/add' do
 	session!
 
-	name = h params['title']
-	url = params['url']
+	@name = h params['title']
+	@url = h params['url'].downcase
 
-	u = User.first(:email => session[:email])
-	i = Instance.new(:name => name, :url => url, :user => u)
+	@u = User.first(:email => session[:email])
+	i = Instance.new(:name => @name, :url => @url, :user => @u)
 
 	if not i.valid?
 	  	redirect '/', :error => "The instance values are wrong or it's in use."
 	end
 
-	redis.sadd('subdomains', url)
-	i.save
-
 	c = Curl::Easy.http_post(settings.api_address + "shore",
-		Curl::PostField.content('name', url),
+		Curl::PostField.content('name', @url),
 		Curl::PostField.content('hash', 's0mRIdlKvI'))
 	puts c.body_str
+
+	redis.sadd('subdomains', @url)
+	i.save
+
+	# Send a notification telling the instance has been created.
+	message = Mail.new
+	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
+	message.from = "yamil@riverflow.in"
+	message.to = @u[:email]
+	message.subject = "A new ProcessMaker instance has been created on your Riverflow account"
+	message.content_type = "text/html"
+	message.body = haml :instance, :layout => false
+	# Send it now
+	message.deliver
 
 	redirect "/instances", :success => "Instance created! Launch it by clicking the link next to the title."
 end
@@ -287,7 +298,7 @@ post '/invites/add' do
 	# Send the invitation!
 	message = Mail.new
 	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
-	message.from = "invites@riverflow.in"
+	message.from = "yamil@riverflow.in"
 	message.to = email
 	message.subject = "You have been invited to Riverflow"
 	message.content_type = "text/html"
@@ -401,7 +412,7 @@ post '/i/forgot/my/password' do
 	# Send the reset email!
 	message = Mail.new
 	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
-	message.from = "invites@riverflow.in"
+	message.from = "yamil@riverflow.in"
 	message.to = r.email
 	message.subject = "Reset your password at Riverflow"
 	message.content_type = "text/html"
