@@ -1,13 +1,18 @@
 %p The following ProcessMaker instance has been created on Riverflow:
 
-%code
-	#{@name}
+%h4	#{@name}
+%p
 	%a{:href => "http://#{@url}.#{settings.address}"} #{@url}.#{settings.address}
 
 %p
-	If for any reason you need to delete the instance, you can do so by going to your Control Panel
+	%b PLEASE NOTE:
+	The username and password for any new instance is 'admin'. Change the login details as security measure.
+
+%p
+	If for any reason you need to delete the instance, you can do so by going to your Control Panel:
 	%a{:href => "http://#{settings.address}/instances"} #{settings.address}/instances
 
 %p
 	Yamil Urbina
+	%br
 	%a{:href => 'http://yamilurbina.com'} yamilurbina.com

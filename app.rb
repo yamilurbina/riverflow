@@ -183,7 +183,7 @@ post '/instance/add' do
 	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
 	message.from = "yamil@riverflow.in"
 	message.to = @u[:email]
-	message.subject = "A new ProcessMaker instance has been created on your Riverflow account"
+	message.subject = "A new ProcessMaker instance has been created on Riverflow"
 	message.content_type = "text/html"
 	message.body = haml :instance, :layout => false
 	# Send it now
