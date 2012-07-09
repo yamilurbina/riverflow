@@ -16,8 +16,11 @@ require 'bcrypt'
 require 'postmark'
 require 'mail'
 
+# New Relic
+require 'newrelic_rpm'
+
 # Config file in YAML format
-config_file 'config.yml'
+config_file 'config/config.yml'
 
 # Set a redis connection
 redis = Redis.new
@@ -114,14 +117,12 @@ end
 
 post '/settings' do
 	session!
-	name = h params[:name]
-	email = h params[:email]
-	password = params[:password]
-	repassword = params[:repassword]
+	name = h params[:settingName]
+	password = params[:settingPassword]
+	repassword = params[:repeatsettingPassword]
 
 	u = User.first(:email => session[:email])
 	u.name = name
-	u.email = email
 	u.created_at = Time.now
 
 	if not password.empty?
@@ -134,8 +135,6 @@ post '/settings' do
 			redirect '/settings', :error => 'Passwords must match.'
 		end
 	end
-
-	puts 'password unchanged.'
 
 	if not u.valid?
 		redirect '/', :error => 'Please check your changes.'

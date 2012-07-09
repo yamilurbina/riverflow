@@ -1,2 +1,4 @@
-config.yml
+config/config.yml
+config/newrelic.yml
 .sass-cache
+log

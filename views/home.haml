@@ -46,11 +46,11 @@
 			%p
 				%label
 					%span Write a name
-					%input#instanceTitle{:type => 'text', :name => 'title', :placeholder => 'My BPM', :maxlength => '23', :title => 'Enter a clear name'}		
+					%input#instanceTitle{:type => 'text', :name => 'title', :maxlength => '23', :title => 'Enter a clear name'}		
 			%p
 				%label.url
 					%span Also a URL
-					%input#instanceUrl{:type => 'text', :name => 'url', :maxlength => '12', :title => 'No spaces or special characters', :placeholder => 'subdomain'}
+					%input#instanceUrl{:type => 'text', :name => 'url', :maxlength => '12', :title => 'No spaces or special characters'}
 					%small #{".riverflow.in"}
 
 			%input#waiting{:type => 'submit', :value => 'Create instance'}
@@ -68,7 +68,7 @@
 		%p
 			%label
 				%span Email Address
-				%input#inviteEmail{:type => 'email', :name => 'email', :placeholder => 'friend@mail.com', :maxlength => '67'}
+				%input#inviteEmail{:type => 'email', :name => 'email', :maxlength => '67'}
 
 		%input{:type => 'submit', :value => 'Send invitation'}
 		or
@@ -81,7 +81,7 @@
 		%p
 			%label
 				%span Domain
-				%input#addDomain{:type => 'text', :name => 'address', :placeholder => 'bpm.company.com', :maxlength => '67', :title => 'A subdomain works much better :)'}
+				%input#addDomain{:type => 'text', :name => 'address', :maxlength => '67', :title => 'A subdomain works much better :)'}
 		%p
 			%b NOTE:
 			Add or modify

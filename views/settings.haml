@@ -6,22 +6,24 @@
 			%p
 				%label
 					%span Name
-					%input#settingsName{:type => 'text', :name => 'name', :value => "#{@user[:name]}", :maxlength => '67'}
+					%input#settingsName{:type => 'text', :name => 'settingName', :value => "#{@user[:name]}", :maxlength => '67'}
 
 			%p
 				%label
 					%span Email Address
-					%input#settingsEmail{:type => 'email', :name => 'email', :value => "#{@user[:email]}", :maxlength => '67'}
+					%input#settingsEmail{:type => 'email', :name => 'email', :value => "#{@user[:email]}", :maxlength => '67', :disabled => 'disabled'}
 
 			%p Change your password
 			%p
 				%label
 					%span New Password
-					%input{:type => 'password', :name => 'password', :maxlength => '67'}
+					%input{:type => 'password', :name => 'settingPassword', :maxlength => '67'}
 
 			%p
 				%label
 					%span Repeat
-					%input{:type => 'password', :name => 'repassword', :maxlength => '67'}
+					%input{:type => 'password', :name => 'repeatsettingPassword', :maxlength => '67'}
 
 			%input{:type => 'submit', :value => 'Save changes'}
+			or
+			%a{:href => '/'} Cancel
