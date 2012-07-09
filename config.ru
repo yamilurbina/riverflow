@@ -12,6 +12,7 @@ require 'haml'
 require 'bcrypt'
 require 'postmark'
 require 'mail'
+require 'newrelic_rpm'
 
 require 'app.rb'
 
