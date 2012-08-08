@@ -1,20 +1,41 @@
+.grid_12#alternate
+	%h1 Focus on your processes. We'll cover the rest.
+	%p With Riverflow, just create your ProcessMaker subdomain and start working on BPM.
+	%iframe{:src => "http://www.screenr.com/embed/q5r8", :width => "650", :height => "396", :frameborder => "0"}
+	
+	%h2 Do you have an invite?
+	%p Leave your email address and get access to Riverflow:
+	:plain
+		<form action="https://tinyletter.com/riverflow" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/riverflow', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"><input type="text" name="email" id="tlemail" placeholder="Email address here"/><input type="hidden" value="1" name="embed"/><br /><input type="submit" value="Subscribe" /></form>
+
 .grid_9
 	.box
-		%h1 Focus on your processes. We'll cover the rest.
-		%p Riverflow allows you to create and manage ProcessMaker instances on demand. No need to learn technical stuff.
+		%h2 Social
 		%p
-			:plain
-				<iframe src="http://www.screenr.com/embed/q5r8" width="650" height="396" frameborder="0"></iframe>
-.grid_3
-	%h2 Register now
-	:plain
-		<form style="text-align:center;" action="https://tinyletter.com/riverflow" method="post" target="popupwindow" onsubmit="window.open('https://tinyletter.com/riverflow', 'popupwindow', 'scrollbars=yes,width=800,height=600');return true"><p><label for="tlemail">Subscribe to the newsletter and get an early invite:</label></p><p><input type="text" style="width:180px" name="email" id="tlemail" placeholder="me@mail.com"/></p><input type="hidden" value="1" name="embed"/><input type="submit" value="Subscribe" /></form>
-
-	%p
-		You can also follow
-		%a{:href => "http://twitter.com/yamilurbina"} @yamilurbina
-		to be notified about new invites.
-	%p
-		:plain
+			Follow
+			%a{:href => "http://twitter.com/yamilurbina"} @yamilurbina
+			for all the Riverflow news.
+			%p
+				:plain
 			<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://riverflow.in" data-text="Riverflow: BPM in the Cloud" data-via="yamilurbina" data-size="large" data-hashtags="BPM">Tweet</a>
 			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			%p
+				:plain
+					<!-- Place this tag where you want the +1 button to render. -->
+					<div class="g-plusone" data-href="http://riverflow.in"></div>
+
+					<!-- Place this tag after the last +1 button tag. -->
+					<script type="text/javascript">
+					  (function() {
+					    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+					    po.src = 'https://apis.google.com/js/plusone.js';
+					    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+					  })();
+					</script>
+
+.grid_3
+	%h2 Links
+	%p
+		%a{:href => '#'} Terms and Conditions
+		%br
+		%a{:href => '#'} Privacy Policy
