@@ -35,7 +35,7 @@
 							%p= flash[:error]
 
 					.grid_4
-						%h1
+						%h1#homie
 							%a#eastit{:href => '/', :title => 'Back to home'} Riverflow
 					.grid_8
 						%ul.main_menu
@@ -83,11 +83,13 @@
 							%a{:href => 'http://processmaker.com'} ProcessMaker
 
 		%script{:src => '/js/libs/jquery-1.7.2.min.js'}
+		%script{:src => '/js/libs/modernizr-2.5.3.min.js'}
 		%script{:src => '/js/libs/jquery.lightbox_me.js'}
 		%script{:src => '/js/libs/jquery.tipsy.js'}
 		%script{:src => '/js/libs/jquery.mask.min.js'}
 		%script{:src => '/js/libs/happy.js'}
 		%script{:src => '/js/libs/happy.methods.js'}
+		%script{:src => '/js/libs/jquery.joyride-1.0.5.js'}
 		%script{:src => '/js/script.js'}
 
 		%script{:src => "//static.getclicky.com/js"}

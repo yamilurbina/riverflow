@@ -1,4 +1,9 @@
 /* Author: Yamil Urbina <yamilurbina@gmail.com> */
+
+$(window).load(function() {
+	$(this).joyride();
+});
+
 $(document).ready(function() {
 	$('.msg').fadeIn('slow').delay(4000).fadeOut();
 

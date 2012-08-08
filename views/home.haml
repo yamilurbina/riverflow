@@ -3,9 +3,9 @@
 		%h1
 			Manage your instances
 			%span.link
-				%a{:href => '#instance'} + Add instance
+				%a#tourFirst{:href => '#instance'} + Add instance
 
-		#instances_list
+		#instances_list#tourSecond
 			- @user.instances.each do |instance|
 				%h2
 					#{instance[:name]}
@@ -32,7 +32,7 @@
 	- if not @user[:invites] <= 0
 		%p
 			Spread the word about Riverflow and get early access to new features. You have #{@user[:invites]} invitations left.
-			%a{:href => '#invite'} Invite now
+			%a#tourThird{:href => '#invite'} Invite now
 	- else
 		%p You don't have any invitations left.
 
@@ -68,7 +68,7 @@
 		%p
 			%label
 				%span Email Address
-				%input#inviteEmail{:type => 'email', :name => 'email', :maxlength => '67'}
+				%input#tourThird{:type => 'email', :name => 'email', :maxlength => '67'}
 
 		%input{:type => 'submit', :value => 'Send invitation'}
 		or
@@ -112,3 +112,21 @@
 
 		%input{:type => 'submit', :value => 'I am sure.'}
 		
+/ Tour by JoyRide
+%ol#riverflowTour
+	%li{:data => {:id => 'homie'}}
+		%h5 Getting started
+		%p Time to have your first BPM instance in the cloud. To continue, click next.
+	%li{:data => {:id => 'tourFirst'}}
+		%h5 Create your instance
+		%p Fill in the name and url of your instance to create it.
+	%li{:data => {:id => 'tourSecond'}}
+		%h5 See your instances
+		%p Your instances will appear after some seconds here.
+	%li{:data => {:id => 'tourThird'}}
+		%h5 Send some invitations
+		%p You'll get rewarded by gaining access to the new and exciting features prepared for Riverflow.
+	%li{:data => {:id => 'homie', :text => 'close'}}
+		%h5 Enjoy Riverflow!
+		%p I want to thank you for your interest in this tool :) Now, close this and start with BPM in the cloud.
+		%p Yamil.
