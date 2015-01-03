@@ -1,0 +1,17 @@
+source "https://rubygems.org"
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'sinatra-session'
+gem 'sinatra-config-file'
+gem 'sinatra-flash'
+gem 'sinatra-redirect-with-flash'
+gem 'dm-core'
+gem 'dm-validations'
+gem 'dm-redis-adapter'
+gem 'curb'
+gem 'haml'
+gem 'bcrypt'
+gem 'postmark'
+gem 'mail'
+gem 'newrelic_rpm'

@@ -11,13 +11,10 @@ require 'dm-core'
 require 'dm-validations'
 require 'dm-redis-adapter'
 require 'curb'
-require 'haml'	
+require 'haml'
 require 'bcrypt'
 require 'postmark'
 require 'mail'
-
-# New Relic
-require 'newrelic_rpm'
 
 # Config file in YAML format
 config_file 'config/config.yml'
@@ -37,7 +34,7 @@ class User
 	# If user has been invited
 	property :invitation, String, :index => true
 	# Number of invites
-	property :invites, Integer, :default => settings.invites_available
+	property :invites, Integer, :default => 4
 	# Resetting password?
 	property :reset, String, :index => true
 	property :password, String, :index => true, :length => 0..80
@@ -52,7 +49,7 @@ class Instance
 	property :name, String, :length => 3..30, :required => true
 	property :address, String, :length => 5..30, :index => true, :unique => true
 	property :url, String, :index => true, :length => 3..60, :unique => true, :required => true
-	property :workspaces, Integer, :default => settings.workspaces_available
+	property :workspaces, Integer, :default => 4
 	property :created_at, DateTime, :default => Time.now
 	# Instances belongs to a User
 	belongs_to :user
@@ -82,7 +79,7 @@ DataMapper.finalize
 # XSS protection
 helpers do
 	include Rack::Utils
-	alias_method :h, :escape_html	
+	alias_method :h, :escape_html
 end
 
 # Session settings
@@ -196,14 +193,14 @@ get '/instance/delete/:id' do
 	instance = Instance.first(:id => params[:id])
 	url = instance[:url]
 	address = instance[:address]
-	
+
 	if instance.nil? or not instance.user[:email] == session[:email]
 		redirect '/', :error => "That instance id is incorrect."
 	end
 
 	instance.destroy
 	redis.srem('subdomains', url)
-	# Delete domain aswell 
+	# Delete domain aswell
 	redis.hdel('domains', address)
 	c = Curl::Easy.http_post(settings.api_address + "outShore",
 		Curl::PostField.content('name', url),
@@ -227,7 +224,7 @@ post '/address/add/:id' do
 	end
 end
 
-# Login 
+# Login
 get '/login' do
 	if session?
 		redirect '/', :notice => 'You are already logged in.'
@@ -287,13 +284,13 @@ post '/invites/add' do
 	end
 
 	# Generate random string
-	o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
+	o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;
 	string  =  (0..8).map{ o[rand(o.length)]  }.join;
 
 	user.invitation = string
 
 	@uri = "http://#{settings.address}/invites/#{string}"
-	@inviter = session[:name]			
+	@inviter = session[:name]
 	# Send the invitation!
 	message = Mail.new
 	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
@@ -318,7 +315,7 @@ post '/invites/add' do
 	# Redirect
 	redirect '/', :success => 'Invitation sent.'
 end
-	
+
 get '/invites/:key' do
 	if session?
 		redirect '/', :warning => "You are already logged in."
@@ -403,11 +400,11 @@ post '/i/forgot/my/password' do
 	# Send the reset email
 
 	# Generate random string
-	o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;  
+	o =  [('a'..'z'),('A'..'Z')].map{|i| i.to_a}.flatten;
 	string  =  (0..8).map{ o[rand(o.length)]  }.join;
 
 	@uri = "http://#{settings.address}/reset/#{string}"
-	@user = r.name			
+	@user = r.name
 	# Send the reset email!
 	message = Mail.new
 	message.delivery_method(Mail::Postmark, :api_key => settings.postmark_api)
